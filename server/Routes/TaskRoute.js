@@ -31,4 +31,18 @@ taskRouter.post(
     })
 );
 
+// GET TASKS
+taskRouter.get(
+    "/",
+    protect,
+    asyncHandler(async (req, res) => {
+        try {
+            const tasks = await Task.find({ user: req.user._id });
+            res.json(tasks);
+        } catch (error) {
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    })
+);
+
 export default taskRouter;
