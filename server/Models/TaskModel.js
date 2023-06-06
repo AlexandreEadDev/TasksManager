@@ -1,17 +1,46 @@
 import mongoose from "mongoose";
 
-const taskSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        require: true
-    },
+const checklistSchema = new mongoose.Schema({
     description: {
         type: String,
-        require: true
+        required: true,
     },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 
-const Task = mongoose.model('Task', taskSchema);
+const taskSchema = new mongoose.Schema(
+    {
+        image: {
+            type: String,
+            required: true,
+        },
+        title: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        checklist: [checklistSchema],
+        deadline: {
+            type: Date,
+            required: false,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+        },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            require: true,
+            ref: "User",
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
 
-export default Task
+const Task = mongoose.model("Task", taskSchema);
+
+export default Task;

@@ -6,30 +6,31 @@ import protect from "../Middleware/authmiddleware.js";
 const taskRouter = express.Router();
 
 
-//CREATE
+// CREATE a new task
 taskRouter.post(
     "/",
     protect,
     asyncHandler(async (req, res) => {
         try {
-
-            const { title, description } = req.body;
+            const { image, title, description, checklist, deadline } = req.body;
 
             const task = await Task.create({
-                name: req.user.name,
+                image,
                 title,
                 description,
-                user: req.user._id
+                checklist,
+                deadline,
+                user: req.user._id,
             });
 
-            const newTask = await task.save()
-            res.status(201).json(newTask)
+            res.status(201).json(task);
         } catch (error) {
-            res.status(400);
-            throw new Error("Invalid User Data");
+            res.status(400).json({ message: "Invalid Task Data" });
         }
     })
 );
+
+
 
 // GET TASKS
 taskRouter.get(
