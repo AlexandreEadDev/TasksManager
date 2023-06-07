@@ -5,6 +5,11 @@ const checklistSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    isChecked: {
+        type: Boolean,
+        default: false,
+        require: true,
+    }
 });
 
 const taskSchema = new mongoose.Schema(

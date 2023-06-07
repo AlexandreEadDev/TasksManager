@@ -12,13 +12,14 @@ taskRouter.post(
     protect,
     asyncHandler(async (req, res) => {
         try {
-            const { image, title, description, checklist, deadline } = req.body;
+            const { image, title, description, checklist, isChecked, deadline } = req.body;
 
             const task = await Task.create({
                 image,
                 title,
                 description,
                 checklist,
+                isChecked,
                 deadline,
                 user: req.user._id,
             });
@@ -45,5 +46,6 @@ taskRouter.get(
         }
     })
 );
+
 
 export default taskRouter;
