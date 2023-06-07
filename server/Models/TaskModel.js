@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const checklistSchema = new mongoose.Schema({
-    description: {
+    infoTask: {
         type: String,
         required: true,
     },

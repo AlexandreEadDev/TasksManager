@@ -1,11 +1,11 @@
-// tasksReducers.js
+// taskReducers.js
 import {
     GET_TASKS_REQUEST,
     GET_TASKS_SUCCESS,
     GET_TASKS_FAILURE,
-    TASK_UPDATE_REQUEST,
-    TASK_UPDATE_SUCCESS,
-    TASK_UPDATE_FAIL,
+    UPDATE_TASK_REQUEST,
+    UPDATE_TASK_SUCCESS,
+    UPDATE_TASK_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const tasksListReducer = (
@@ -16,11 +16,19 @@ export const tasksListReducer = (
         case GET_TASKS_REQUEST:
             return { ...state, loading: true };
         case GET_TASKS_SUCCESS:
-            return { ...state, loading: false, tasksList: action.payload };
+            return { ...state, loading: false, tasks: action.payload };
         case GET_TASKS_FAILURE:
+            return { ...state, loading: false, error: action.payload };
+        case UPDATE_TASK_REQUEST:
+            return { ...state, loading: true };
+        case UPDATE_TASK_SUCCESS:
+            const updatedTasks = state.tasks.map((task) =>
+                task._id === action.payload._id ? action.payload : task
+            );
+            return { ...state, loading: false, tasks: updatedTasks };
+        case UPDATE_TASK_FAILURE:
             return { ...state, loading: false, error: action.payload };
         default:
             return state;
     }
 };
-

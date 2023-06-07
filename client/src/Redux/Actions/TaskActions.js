@@ -4,9 +4,9 @@ import {
     GET_TASKS_REQUEST,
     GET_TASKS_SUCCESS,
     GET_TASKS_FAILURE,
-    TASK_UPDATE_REQUEST,
-    TASK_UPDATE_FAIL,
-    TASK_UPDATE_SUCCESS,
+    UPDATE_TASK_REQUEST,
+    UPDATE_TASK_SUCCESS,
+    UPDATE_TASK_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const getTasks = () => async (dispatch, getState) => {
@@ -39,4 +39,37 @@ export const getTasks = () => async (dispatch, getState) => {
         });
     }
 };
+
+
+export const updateTask = (taskId, updatedTask) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: UPDATE_TASK_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`,
+            },
+        };
+
+        const { data } = await axios.put(`/api/tasks/${taskId}`, updatedTask, config);
+
+        dispatch({
+            type: UPDATE_TASK_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_TASK_FAILURE,
+            payload: error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message,
+        });
+    }
+};
+
 
