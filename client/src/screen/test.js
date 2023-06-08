@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, updateTask } from "../Redux/Actions/TaskActions.js";
+import { Link } from "react-router-dom";
 
-const TaskList = () => {
+export default function TaskList() {
   const dispatch = useDispatch();
 
   const [selectedTask, setSelectedTask] = useState(null);
@@ -11,9 +12,7 @@ const TaskList = () => {
   const listTasks = useSelector((state) => state.tasksList);
   const { tasks, loading, error } = listTasks;
 
-  useEffect(() => {
-    dispatch(getTasks());
-  }, [dispatch]);
+
 
   useEffect(() => {
     if (selectedTask) {
@@ -51,6 +50,10 @@ const TaskList = () => {
     setUpdatedTasks({});
   }, [dispatch, updatedTasks]);
 
+  const handleLinkClick = useCallback(() => {
+    saveChanges()
+  }, [saveChanges]);
+
   useEffect(() => {
     const handleBeforeUnload = (event) => {
       if (Object.keys(updatedTasks).length > 0) {
@@ -60,12 +63,19 @@ const TaskList = () => {
       }
     };
 
+
+
+
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [updatedTasks, saveChanges]);
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
 
   return (
     <div>
@@ -104,8 +114,8 @@ const TaskList = () => {
           )}
         </>
       )}
+      <Link to="/" onClick={handleLinkClick}>home</Link>
     </div>
   );
 };
 
-export default TaskList;
