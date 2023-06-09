@@ -8,11 +8,16 @@ export default function TaskList() {
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [updatedTasks, setUpdatedTasks] = useState({});
+  const [filterType, setFilterType] = useState("all"); // "all", "inProgress", "completed"
 
   const listTasks = useSelector((state) => state.tasksList);
   const { tasks, loading, error } = listTasks;
 
-
+  const displayCheckedPercentage = (checklist) => {
+    const checkedItems = checklist.filter((item) => item.isChecked);
+    const percentage = (checkedItems.length / checklist.length) * 100;
+    return `${percentage.toFixed(2)}%`;
+  };
 
   useEffect(() => {
     if (selectedTask) {
@@ -51,7 +56,7 @@ export default function TaskList() {
   }, [dispatch, updatedTasks]);
 
   const handleLinkClick = useCallback(() => {
-    saveChanges()
+    saveChanges();
   }, [saveChanges]);
 
   useEffect(() => {
@@ -62,9 +67,6 @@ export default function TaskList() {
         saveChanges();
       }
     };
-
-
-
 
     window.addEventListener("beforeunload", handleBeforeUnload);
 
@@ -77,6 +79,37 @@ export default function TaskList() {
     dispatch(getTasks());
   }, [dispatch]);
 
+  const filterTasks = () => {
+    switch (filterType) {
+      case "inProgress":
+        return tasks.filter((task) => {
+          const checkedPercentage = (task.checklist.filter(
+            (item) => item.isChecked
+          ).length /
+            task.checklist.length) *
+            100;
+          return checkedPercentage > 0 && checkedPercentage < 100;
+        });
+      case "completed":
+        return tasks.filter((task) => {
+          const checkedPercentage = (task.checklist.filter(
+            (item) => item.isChecked
+          ).length /
+            task.checklist.length) *
+            100;
+          return checkedPercentage === 100;
+        });
+      default:
+        return tasks;
+    }
+  };
+
+  const handleFilterClick = (type) => {
+    setFilterType(type);
+  };
+
+  const filteredTasks = filterTasks();
+
   return (
     <div>
       {loading ? (
@@ -85,12 +118,25 @@ export default function TaskList() {
         <p>Error: {error}</p>
       ) : (
         <>
+          <div>
+            <button onClick={() => handleFilterClick("all")}>All Tasks</button>
+            <button onClick={() => handleFilterClick("inProgress")}>
+              In Progress
+            </button>
+            <button onClick={() => handleFilterClick("completed")}>
+              Completed
+            </button>
+          </div>
           <ul>
-            {tasks.map((task) => (
+            {filteredTasks.map((task) => (
               <li key={task._id} onClick={() => handleTaskClick(task)}>
                 {task.image}
                 {task.title}
                 {task.description}
+                <span>
+                  {task.checklist.length > 0 &&
+                    `(${displayCheckedPercentage(task.checklist)})`}
+                </span>
               </li>
             ))}
           </ul>
@@ -104,18 +150,29 @@ export default function TaskList() {
                     <input
                       type="checkbox"
                       checked={item.isChecked}
-                      onChange={(e) => handleCheckboxChange(selectedTask, item, e.target.checked)}
+                      onChange={(e) =>
+                        handleCheckboxChange(
+                          selectedTask,
+                          item,
+                          e.target.checked
+                        )
+                      }
                     />
                     <label>{item.infoTask}</label>
                   </li>
                 ))}
               </ul>
+              <p>
+                Percentage Checked:{" "}
+                {displayCheckedPercentage(selectedTask.checklist)}
+              </p>
             </div>
           )}
         </>
       )}
-      <Link to="/" onClick={handleLinkClick}>home</Link>
+      <Link to="/" onClick={handleLinkClick}>
+        home
+      </Link>
     </div>
   );
-};
-
+}
