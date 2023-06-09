@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, updateTask } from "../Redux/Actions/TaskActions.js";
 import { Link } from "react-router-dom";
+import Header from "../components/header.js";
 
 export default function TaskList() {
   const dispatch = useDispatch();
@@ -112,6 +113,9 @@ export default function TaskList() {
 
   return (
     <div>
+      <Header />
+
+
       {loading ? (
         <p>Loading tasks...</p>
       ) : error ? (

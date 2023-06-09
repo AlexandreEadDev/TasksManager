@@ -1,13 +1,96 @@
+:root{
+  --poppins:'Poppins', sans-serif;
+}
+
+html{
+  font-size: 62.5%;
+
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'Poppins', sans-serif;
 }
+
+
+/* HEADER */
+
+.header-component{
+  margin-left: 10rem;
+  background: #FFFFFF;
+  border-bottom: 1px solid #BABABA;
+  color: #929292;
+  padding: 10px;
+  display: flex;
+  align-items:center; 
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 10.8rem;
+}
+
+.button-w{
+  display: flex; 
+  align-items: center;
+  transform: translateX(5rem);
+  gap: 5.5rem;
+}
+
+
+.button-w a{
+  font-family: var(--poppins);
+  font-size: 1.8em; 
+  font-style: normal;
+  font-weight: 600;
+  line-height: 3.0rem;
+  color: #929292;
+  text-decoration: none;
+}
+
+.button-w .tasksManager{
+  font-family: var(--poppins);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 2.2rem;
+  line-height: 3.3rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+}
+
+.search-w{
+  width: 35.0rem;
+  height: 4.5rem;
+  display: flex;
+  align-items: center;
+  background: #EEEEEE;
+  color: #CAC6C6;
+  border-radius: 7px;
+  padding-left: 1.5rem;
+  margin-right: 7.5rem;
+  gap: 1rem;
+  font-size: 1.5rem; 
+}
+
+.search{
+  background: #EEEEEE;
+  font-family: var(--poppins);
+  font-style: normal;
+  line-height: 2.4rem;
+  font-weight: 600;
+  outline: none;
+  border: none;
+}
+
+.search::placeholder{
+  color: #CAC6C6;
+}
+
+/* SIDEBAR */
