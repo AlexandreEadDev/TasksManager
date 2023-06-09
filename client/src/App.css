@@ -113,11 +113,11 @@ code {
   display: flex;
   flex-direction: column;
   margin-top: 12rem;
-  gap: 3.2rem;
+  gap: 3rem;
 }
 
 .sidebar-button i {
-  font-size: 2.5rem;
+  font-size: 2.3rem;
 }
 
 /* HOME */

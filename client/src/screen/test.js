@@ -111,7 +111,7 @@ export default function TaskList() {
 
   return (
     <div>
-      <Header />
+      <Header handleLinkClick={handleLinkClick} />
 
       {loading ? (
         <p>Loading tasks...</p>
