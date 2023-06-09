@@ -1,59 +1,56 @@
-:root{
-  --poppins:'Poppins', sans-serif;
+:root {
+  --poppins: "Poppins", sans-serif;
 }
 
-html{
+html {
   font-size: 62.5%;
-
 }
-
 
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  margin-left: 5.5rem;
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
-
 
 /* HEADER */
 
-.header-component{
+.header-component {
   margin-left: 10rem;
-  background: #FFFFFF;
-  border-bottom: 1px solid #BABABA;
+  background: #ffffff;
+  border-bottom: 1px solid #bababa;
   color: #929292;
   padding: 10px;
   display: flex;
-  align-items:center; 
+  align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
   height: 10.8rem;
 }
 
-.button-w{
-  display: flex; 
+.button-w {
+  display: flex;
   align-items: center;
   transform: translateX(5rem);
   gap: 5.5rem;
 }
 
-
-.button-w a{
+.button-w a {
   font-family: var(--poppins);
-  font-size: 1.8em; 
+  font-size: 1.8em;
   font-style: normal;
   font-weight: 600;
-  line-height: 3.0rem;
+  line-height: 3rem;
   color: #929292;
   text-decoration: none;
 }
 
-.button-w .tasksManager{
+.button-w .tasksManager {
   font-family: var(--poppins);
   font-style: normal;
   font-weight: 600;
@@ -65,22 +62,22 @@ code {
   color: #000000;
 }
 
-.search-w{
-  width: 35.0rem;
+.search-w {
+  width: 35rem;
   height: 4.5rem;
   display: flex;
   align-items: center;
-  background: #EEEEEE;
-  color: #CAC6C6;
+  background: #eeeeee;
+  color: #cac6c6;
   border-radius: 7px;
   padding-left: 1.5rem;
   margin-right: 7.5rem;
   gap: 1rem;
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
 }
 
-.search{
-  background: #EEEEEE;
+.search {
+  background: #eeeeee;
   font-family: var(--poppins);
   font-style: normal;
   line-height: 2.4rem;
@@ -89,8 +86,42 @@ code {
   border: none;
 }
 
-.search::placeholder{
-  color: #CAC6C6;
+.search::placeholder {
+  color: #cac6c6;
 }
 
 /* SIDEBAR */
+
+.sidebar-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 10rem;
+  height: 100%;
+  background-color: #eeeeee;
+}
+
+.sidebar-logo {
+  margin-top: 2.5rem;
+  width: 6rem;
+  height: 6rem;
+  background-color: #d9d9d9;
+}
+
+.sidebar-button {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12rem;
+  gap: 3.2rem;
+}
+
+.sidebar-button i {
+  font-size: 2.5rem;
+}
+
+/* HOME */
+
+.home-container {
+  margin-left: 10rem;
+}

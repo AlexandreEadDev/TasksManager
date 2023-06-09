@@ -84,19 +84,17 @@ export default function TaskList() {
     switch (filterType) {
       case "inProgress":
         return tasks.filter((task) => {
-          const checkedPercentage = (task.checklist.filter(
-            (item) => item.isChecked
-          ).length /
-            task.checklist.length) *
+          const checkedPercentage =
+            (task.checklist.filter((item) => item.isChecked).length /
+              task.checklist.length) *
             100;
           return checkedPercentage > 0 && checkedPercentage < 100;
         });
       case "completed":
         return tasks.filter((task) => {
-          const checkedPercentage = (task.checklist.filter(
-            (item) => item.isChecked
-          ).length /
-            task.checklist.length) *
+          const checkedPercentage =
+            (task.checklist.filter((item) => item.isChecked).length /
+              task.checklist.length) *
             100;
           return checkedPercentage === 100;
         });
@@ -114,7 +112,6 @@ export default function TaskList() {
   return (
     <div>
       <Header />
-
 
       {loading ? (
         <p>Loading tasks...</p>
