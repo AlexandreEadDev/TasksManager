@@ -1,41 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getTasks, updateTask } from "../Redux/Actions/TaskActions";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
+import React, { useEffect, useState, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getTasks, updateTask } from "../Redux/Actions/TaskActions.js";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../components/header.js";
+import { useLocation } from "react-router-dom";
 
-export default function Home() {
+export default function TaskList() {
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const navigate = useNavigate();
-  const today = new Date();
-  const yesterday = new Date(today);
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const listTasks = useSelector((state) => state.tasksList);
-  const { tasks } = listTasks;
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [updatedTasks, setUpdatedTasks] = useState({});
   const [filterType, setFilterType] = useState("all"); // "all", "inProgress", "completed"
   const [isModified, setIsModified] = useState(false);
 
-  const newTasks = tasks.filter((task) => {
-    const createdAt = new Date(task.createdAt);
-    return createdAt >= yesterday && createdAt < today;
-  });
-
-  const numberOfNewTasks = newTasks.length;
-
-  const inProgressTasks = tasks.filter((task) => {
-    const hasUnchecked = task.checklist.some((item) => !item.isChecked);
-    const hasChecked = task.checklist.some((item) => item.isChecked);
-    return hasUnchecked && hasChecked;
-  });
-
-  const numberOfInProgressTasks = inProgressTasks.length;
+  const listTasks = useSelector((state) => state.tasksList);
+  const { tasks, loading, error } = listTasks;
 
   const displayCheckedPercentage = (checklist) => {
     const checkedItems = checklist.filter((item) => item.isChecked);
@@ -91,6 +73,10 @@ export default function Home() {
     });
     setUpdatedTasks({});
   }, [dispatch, updatedTasks]);
+
+  const handleLinkClick = useCallback(() => {
+    saveChanges();
+  }, [saveChanges]);
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -152,43 +138,14 @@ export default function Home() {
 
   return (
     <div>
-      <Sidebar />
-      <Header />
+      <Header handleLinkClick={handleLinkClick} />
 
-      <div className="home-container">
-        <div className="home-header">
-          <div className="all-tasks-w">
-            <i className="fa-solid fa-list-ul"></i>
-            <h3>All Tasks</h3>
-            <Link to="/tasks">
-              <i className="fa-solid fa-ellipsis-vertical"></i>{" "}
-            </Link>
-            <p>{tasks ? tasks.length : "Loading..."}</p>
-            {numberOfNewTasks > 1 && (
-              <p>+{numberOfNewTasks} news tasks from yesterday</p>
-            )}
-            {numberOfNewTasks === 1 && <p>1 new task from yesterday</p>}
-            {numberOfNewTasks === 0 && <p>No new tasks from yesterday</p>}
-          </div>
-          <div className="in-progress-w">
-            <i className="fa-solid fa-percent"></i>
-            <h3>In Progress</h3>
-            <Link to="/tasks?filter=inProgress">
-              <i className="fa-solid fa-ellipsis-vertical"></i>
-            </Link>
-            <p>{numberOfInProgressTasks}</p>
-            <p className="in-prog"></p>
-          </div>
-          <div className="completed-w">
-            <i className="fa-solid fa-check"></i>
-            <h3>Completed</h3>
-            <Link to="/tasks?filter=completed">
-              <i className="fa-solid fa-ellipsis-vertical"></i>
-            </Link>
-            <p></p>
-          </div>
-        </div>
-        <div className="home-tasks-list-w">
+      {loading ? (
+        <p>Loading tasks...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <>
           <div>
             <button onClick={() => handleFilterClick("all")}>All Tasks</button>
             <button onClick={() => handleFilterClick("inProgress")}>
@@ -239,8 +196,11 @@ export default function Home() {
               </p>
             </div>
           )}
-        </div>
-      </div>
+        </>
+      )}
+      <Link to="/" onClick={handleLinkClick}>
+        home
+      </Link>
     </div>
   );
 }
