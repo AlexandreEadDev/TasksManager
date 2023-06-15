@@ -20,11 +20,6 @@ export default function Home() {
   const [currentCheckedPercent, setCurrentCheckedPercent] = useState(0);
   const [yesterdayCheckedPercent, setYesterdayCheckedPercent] = useState(0);
   const [percentDifference, setPercentDifference] = useState(0);
-  const [newTaskInput, setNewTaskInput] = useState({
-    title: "",
-    description: "",
-    checklist: [],
-  });
 
   useEffect(() => {
     dispatch(getTasks());
@@ -223,11 +218,6 @@ export default function Home() {
 
   const numberOfCompletedTasks = completedTasks.length;
 
-  const handleAddTask = () => {
-    dispatch(createTask(newTaskInput));
-    setNewTaskInput({ title: "", description: "", checklist: [] });
-  };
-
   return (
     <div>
       <Sidebar />
@@ -262,11 +252,13 @@ export default function Home() {
 
         <div className="home-tasks-list-w">
           <h2>My Tasks</h2>
+
           <div className="home-add-button-w">
             <button className="home-add-button">
               <i class="fa-solid fa-plus"></i>Add Tasks
             </button>
           </div>
+
           <div>
             <button onClick={() => handleFilterClick("all")}>All Tasks</button>
             <button onClick={() => handleFilterClick("inProgress")}>
