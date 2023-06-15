@@ -1,15 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getTasks, updateTask } from "../Redux/Actions/TaskActions";
+import { getTasks, updateTask, createTask } from "../Redux/Actions/TaskActions";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const navigate = useNavigate();
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
@@ -19,8 +15,20 @@ export default function Home() {
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [updatedTasks, setUpdatedTasks] = useState({});
-  const [filterType, setFilterType] = useState("all"); // "all", "inProgress", "completed"
+  const [filterType, setFilterType] = useState("all");
   const [isModified, setIsModified] = useState(false);
+  const [currentCheckedPercent, setCurrentCheckedPercent] = useState(0);
+  const [yesterdayCheckedPercent, setYesterdayCheckedPercent] = useState(0);
+  const [percentDifference, setPercentDifference] = useState(0);
+  const [newTaskInput, setNewTaskInput] = useState({
+    title: "",
+    description: "",
+    checklist: [],
+  });
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
 
   const newTasks = tasks.filter((task) => {
     const createdAt = new Date(task.createdAt);
@@ -42,18 +50,6 @@ export default function Home() {
     const percentage = (checkedItems.length / checklist.length) * 100;
     return `${percentage.toFixed(2)}%`;
   };
-
-  useEffect(() => {
-    const filterQueryParam = queryParams.get("filter");
-    if (
-      filterQueryParam &&
-      ["all", "inProgress", "completed"].includes(filterQueryParam)
-    ) {
-      setFilterType(filterQueryParam);
-    } else {
-      setFilterType("all"); // Default value
-    }
-  }, [queryParams]);
 
   useEffect(() => {
     if (selectedTask) {
@@ -137,18 +133,100 @@ export default function Home() {
       setIsModified(false); // Reset isModified to false
     }
     setFilterType(type);
-    queryParams.set("filter", type);
-    const newSearch = queryParams.toString();
-    const newPath = location.pathname + "?" + newSearch;
-    dispatch(getTasks());
-    navigate(newPath);
+    setSelectedTask(null);
   };
 
   const filteredTasks = filterTasks();
 
+  const getTotalChecklistItems = () => {
+    let totalItems = 0;
+    let checkedItems = 0;
+
+    tasks.forEach((task) => {
+      task.checklist.forEach((item) => {
+        totalItems++;
+        if (item.isChecked) {
+          checkedItems++;
+        }
+      });
+    });
+
+    return { totalItems, checkedItems };
+  };
+
+  const { totalItems, checkedItems } = getTotalChecklistItems();
+
   useEffect(() => {
-    dispatch(getTasks());
-  }, [dispatch]);
+    const newCheckedPercent = (checkedItems / totalItems) * 100;
+    setCurrentCheckedPercent(newCheckedPercent);
+  }, [totalItems, currentCheckedPercent]);
+
+  useEffect(() => {
+    const calculateCheckedPercent = () => {
+      const newCheckedPercent = (checkedItems / totalItems) * 100;
+      setCurrentCheckedPercent(newCheckedPercent);
+    };
+
+    // Recalculate checked percentage whenever checkedItems or totalItems change
+    calculateCheckedPercent();
+
+    // Retrieve yesterdayCheckedPercent from localStorage
+    const storedYesterdayCheckedPercent = localStorage.getItem(
+      "yesterdayCheckedPercent"
+    );
+
+    if (storedYesterdayCheckedPercent) {
+      // Use the stored value if available
+      setYesterdayCheckedPercent(parseFloat(storedYesterdayCheckedPercent));
+    } else {
+      // Use a default value for testing purposes
+      const defaultYesterdayCheckedPercent = 0.0; // Set your desired default value here
+      setYesterdayCheckedPercent(defaultYesterdayCheckedPercent);
+    }
+
+    // Calculate and save yesterday's checked percentage at midnight
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const timeUntilMidnight = midnight - new Date();
+
+    const intervalId = setInterval(() => {
+      // Save the currentCheckedPercent as yesterdayCheckedPercent at midnight
+      localStorage.setItem(
+        "yesterdayCheckedPercent",
+        currentCheckedPercent.toString()
+      );
+
+      // Recalculate checked percentage for the new day
+      calculateCheckedPercent();
+    }, timeUntilMidnight);
+
+    // Clean up the interval on unmount
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [checkedItems, totalItems]);
+
+  useEffect(() => {
+    const diff = currentCheckedPercent - yesterdayCheckedPercent;
+    setPercentDifference(diff);
+  }, [currentCheckedPercent, yesterdayCheckedPercent]);
+
+  const diffSign = percentDifference > 0 ? "+" : "";
+
+  const completedTasks = tasks.filter((task) => {
+    const checkedPercentage =
+      (task.checklist.filter((item) => item.isChecked).length /
+        task.checklist.length) *
+      100;
+    return checkedPercentage === 100;
+  });
+
+  const numberOfCompletedTasks = completedTasks.length;
+
+  const handleAddTask = () => {
+    dispatch(createTask(newTaskInput));
+    setNewTaskInput({ title: "", description: "", checklist: [] });
+  };
 
   return (
     <div>
@@ -160,35 +238,35 @@ export default function Home() {
           <div className="all-tasks-w">
             <i className="fa-solid fa-list-ul"></i>
             <h3>All Tasks</h3>
-            <Link to="/tasks">
-              <i className="fa-solid fa-ellipsis-vertical"></i>{" "}
-            </Link>
             <p>{tasks ? tasks.length : "Loading..."}</p>
             {numberOfNewTasks > 1 && (
-              <p>+{numberOfNewTasks} news tasks from yesterday</p>
+              <p>+{numberOfNewTasks}news tasks from yesterday</p>
             )}
-            {numberOfNewTasks === 1 && <p>1 new task from yesterday</p>}
-            {numberOfNewTasks === 0 && <p>No new tasks from yesterday</p>}
+            {numberOfNewTasks === 1 && <p>+1 new task from yesterday</p>}
+            {numberOfNewTasks === 0 && <p>No news tasks from yesterday</p>}
           </div>
           <div className="in-progress-w">
             <i className="fa-solid fa-percent"></i>
             <h3>In Progress</h3>
-            <Link to="/tasks?filter=inProgress">
-              <i className="fa-solid fa-ellipsis-vertical"></i>
-            </Link>
             <p>{numberOfInProgressTasks}</p>
-            <p className="in-prog"></p>
+            <p>{`${diffSign}${percentDifference.toFixed(
+              2
+            )}% from yesterday`}</p>
           </div>
           <div className="completed-w">
             <i className="fa-solid fa-check"></i>
             <h3>Completed</h3>
-            <Link to="/tasks?filter=completed">
-              <i className="fa-solid fa-ellipsis-vertical"></i>
-            </Link>
-            <p></p>
+            <p>{numberOfCompletedTasks} tasks completed</p>
           </div>
         </div>
+
         <div className="home-tasks-list-w">
+          <h2>My Tasks</h2>
+          <div className="home-add-button-w">
+            <button className="home-add-button">
+              <i class="fa-solid fa-plus"></i>Add Tasks
+            </button>
+          </div>
           <div>
             <button onClick={() => handleFilterClick("all")}>All Tasks</button>
             <button onClick={() => handleFilterClick("inProgress")}>
@@ -234,7 +312,7 @@ export default function Home() {
                 ))}
               </ul>
               <p>
-                Percentage Checked:{" "}
+                Percentage Checked:
                 {displayCheckedPercentage(selectedTask.checklist)}
               </p>
             </div>

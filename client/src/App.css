@@ -102,13 +102,6 @@ code {
   background-color: #eeeeee;
 }
 
-.sidebar-logo {
-  margin-top: 2.5rem;
-  width: 6rem;
-  height: 6rem;
-  background-color: #d9d9d9;
-}
-
 .sidebar-button {
   display: flex;
   flex-direction: column;
@@ -116,8 +109,24 @@ code {
   gap: 3rem;
 }
 
-.sidebar-button i {
+.sidebar-button a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: black;
+  text-decoration: none;
+}
+
+.sidebar-button a i {
   font-size: 2.3rem;
+}
+
+.sidebar-logo {
+  margin-top: 2.5rem;
+  width: 6rem;
+  height: 6rem;
+  background-color: #d9d9d9;
 }
 
 /* HOME */

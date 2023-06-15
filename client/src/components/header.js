@@ -8,11 +8,11 @@ export default function Header(props) {
         <Link className="tasksManager" to="/" onClick={props.handleLinkClick}>
           Tasks Manager
         </Link>
-        <Link to="/" onClick={props.handleLinkClick}>
+        <Link to="/calendar" onClick={props.handleLinkClick}>
           Calendar
         </Link>
-        <Link to="/tasks" onClick={props.handleLinkClick}>
-          Tasks
+        <Link to="/profile" onClick={props.handleLinkClick}>
+          Profile
         </Link>
       </div>
       <div className="search-w">
