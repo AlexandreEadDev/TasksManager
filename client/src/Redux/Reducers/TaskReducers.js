@@ -6,6 +6,9 @@ import {
   UPDATE_TASK_REQUEST,
   UPDATE_TASK_SUCCESS,
   UPDATE_TASK_FAILURE,
+  CREATE_TASK_REQUEST,
+  CREATE_TASK_SUCCESS,
+  CREATE_TASK_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const tasksListReducer = (
@@ -33,16 +36,16 @@ export const tasksListReducer = (
   }
 };
 
-export const addTaskReducer = (
+export const createTaskReducer = (
   state = { task: null, loading: false, error: null },
   action
 ) => {
   switch (action.type) {
-    case UPDATE_TASK_REQUEST:
+    case CREATE_TASK_REQUEST:
       return { ...state, loading: true };
-    case UPDATE_TASK_SUCCESS:
+    case CREATE_TASK_SUCCESS:
       return { ...state, loading: false, task: action.payload };
-    case UPDATE_TASK_FAILURE:
+    case CREATE_TASK_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

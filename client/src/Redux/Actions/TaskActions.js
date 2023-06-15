@@ -80,16 +80,25 @@ export const updateTask =
     }
   };
 
-export const createTask = (newTask) => async (dispatch) => {
+export const createTask = (newTask) => async (dispatch, getState) => {
   try {
     // Dispatch an action to indicate the creation request
     dispatch({ type: CREATE_TASK_REQUEST });
 
-    // Make an API request to create a new task
-    const response = await axios.post("/api/tasks", newTask);
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-    // Dispatch an action with the newly created task
-    dispatch({ type: CREATE_TASK_SUCCESS, payload: response.data });
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.post(`/api/tasks`, newTask, config);
+
+    dispatch({ type: CREATE_TASK_SUCCESS, payload: data });
 
     // Refresh the tasks list
     dispatch(getTasks());
