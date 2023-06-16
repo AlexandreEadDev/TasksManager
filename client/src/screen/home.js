@@ -20,6 +20,11 @@ export default function Home() {
   const [currentCheckedPercent, setCurrentCheckedPercent] = useState(0);
   const [yesterdayCheckedPercent, setYesterdayCheckedPercent] = useState(0);
   const [percentDifference, setPercentDifference] = useState(0);
+  const [image, setImage] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [checklistItem, setChecklistItem] = useState("");
 
   useEffect(() => {
     dispatch(getTasks());
@@ -235,6 +240,35 @@ export default function Home() {
 
   const numberOfCompletedTasks = completedTasks.length;
 
+  const handleImageChange = (e) => {
+    setImage(e.target.value);
+  };
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleDeadlineChange = (e) => {
+    setDeadline(e.target.value);
+  };
+  const handleAddTask = () => {
+    const newTask = {
+      image,
+      title,
+      description,
+      deadline,
+    };
+
+    dispatch(createTask(newTask));
+
+    // Reset the input fields
+    setImage("");
+    setTitle("");
+    setDescription("");
+    setDeadline("");
+  };
+
   return (
     <div>
       <Sidebar />
@@ -270,10 +304,44 @@ export default function Home() {
         <div className="home-tasks-list-w">
           <h2>My Tasks</h2>
 
-          <div className="home-add-button-w">
-            <button className="home-add-button">
-              <i class="fa-solid fa-plus"></i>Add Tasks
-            </button>
+          <div className="home-add-task-form">
+            <h2>Add Task</h2>
+            <div className="form-group">
+              <label htmlFor="image">Image:</label>
+              <input
+                type="text"
+                id="image"
+                value={image}
+                onChange={handleImageChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="title">Title:</label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={handleTitleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Description:</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={handleDescriptionChange}
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label htmlFor="deadline">Deadline:</label>
+              <input
+                type="date"
+                id="deadline"
+                value={deadline}
+                onChange={handleDeadlineChange}
+              />
+            </div>
+            <button onClick={handleAddTask}>Add Task</button>
           </div>
 
           <div>
