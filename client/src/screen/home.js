@@ -184,6 +184,8 @@ export default function Home() {
     midnight.setHours(24, 0, 0, 0);
     const timeUntilMidnight = midnight - new Date();
 
+    let timeoutId;
+
     const intervalId = setInterval(() => {
       // Save the currentCheckedPercent as yesterdayCheckedPercent at midnight
       localStorage.setItem(
@@ -191,15 +193,30 @@ export default function Home() {
         currentCheckedPercent.toString()
       );
 
-      // Recalculate checked percentage for the new day
-      calculateCheckedPercent();
+      // Clear previous timeout if exists
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // Delayed calculation of checked percentage
+      timeoutId = setTimeout(() => {
+        if (isNaN(checkedItems) || isNaN(totalItems) || totalItems === 0) {
+          // Handle NaN or 0 values, set currentCheckedPercent to 0 or default value
+          setCurrentCheckedPercent(0);
+        } else {
+          calculateCheckedPercent();
+        }
+      }, 500);
     }, timeUntilMidnight);
 
-    // Clean up the interval on unmount
+    // Clean up the interval and timeout on unmount
     return () => {
       clearInterval(intervalId);
+      clearTimeout(timeoutId);
     };
   }, [checkedItems, totalItems]);
+
+  console.log(currentCheckedPercent);
 
   useEffect(() => {
     const diff = currentCheckedPercent - yesterdayCheckedPercent;
