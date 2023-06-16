@@ -8,7 +8,7 @@ const checklistSchema = new mongoose.Schema({
   isChecked: {
     type: Boolean,
     default: false,
-    require: true,
+    require: false,
   },
 });
 
@@ -26,7 +26,9 @@ const taskSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    checklist: [checklistSchema],
+    checklist: {
+      type: [checklistSchema],
+    },
     deadline: {
       type: Date,
       required: false,

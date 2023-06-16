@@ -53,7 +53,6 @@ taskRouter.get(
   })
 );
 
-// UPDATE a task
 taskRouter.put(
   "/:id",
   protect,
@@ -72,13 +71,18 @@ taskRouter.put(
             const foundItem = task.checklist.find(
               (item) => item._id.toString() === _id
             );
+
             if (foundItem) {
               foundItem.infoTask =
                 infoTask !== undefined ? infoTask : foundItem.infoTask;
               foundItem.isChecked =
                 isChecked !== undefined ? isChecked : foundItem.isChecked;
+            } else {
+              task.checklist.push({ infoTask, isChecked });
             }
           });
+
+          task.markModified("checklist"); // Mark the checklist property as modified
         }
 
         task.image = image !== undefined ? image : task.image;
