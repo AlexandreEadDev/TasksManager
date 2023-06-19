@@ -42,7 +42,7 @@ code {
 
 .button-w a {
   font-family: var(--poppins);
-  font-size: 1.8em;
+  font-size: 1.8rem;
   font-style: normal;
   font-weight: 600;
   line-height: 3rem;
@@ -180,4 +180,24 @@ code {
   top: 0;
   right: 0;
   border-left: 1px solid #bababa;
+}
+
+.home-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rem;
+  margin: 5rem 47rem 5rem 0;
+}
+
+.home-filter-btn button {
+  font-family: var(--poppins);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 27px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  width: fit-content;
 }

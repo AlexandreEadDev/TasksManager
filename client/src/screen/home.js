@@ -386,12 +386,27 @@ export default function Home() {
             </div>
           )}
 
-          <div>
-            <button onClick={() => handleFilterClick("all")}>All Tasks</button>
-            <button onClick={() => handleFilterClick("inProgress")}>
+          <div className="home-filter-btn">
+            <button
+              style={{ color: filterType === "all" ? "black" : "#929292" }}
+              onClick={() => handleFilterClick("all")}
+            >
+              All Tasks
+            </button>
+            <button
+              style={{
+                color: filterType === "inProgress" ? "black" : "#929292",
+              }}
+              onClick={() => handleFilterClick("inProgress")}
+            >
               In Progress
             </button>
-            <button onClick={() => handleFilterClick("completed")}>
+            <button
+              style={{
+                color: filterType === "completed" ? "black" : "#929292",
+              }}
+              onClick={() => handleFilterClick("completed")}
+            >
               Completed
             </button>
           </div>
