@@ -68,12 +68,12 @@ export default function Home() {
   }, [selectedTask]);
 
   const handleTaskClick = (task) => {
-    if (selectedTask === null) {
-      setSelectedTask(task);
-    } else {
-      setSelectedTask(null);
-    }
+    setSelectedTask(task);
   };
+
+  function handleTaskHide() {
+    setSelectedTask(null);
+  }
 
   const handleCheckboxChange = (task, item, checked) => {
     const updatedTask = { ...task };
@@ -306,6 +306,8 @@ export default function Home() {
     }
   };
 
+  // Toggle
+
   return (
     <div>
       <Sidebar />
@@ -318,7 +320,7 @@ export default function Home() {
             <h3>All Tasks</h3>
             <p>{tasks ? tasks.length : "Loading..."}</p>
             {numberOfNewTasks > 1 && (
-              <p>+{numberOfNewTasks}news tasks from yesterday</p>
+              <p>+{numberOfNewTasks} news tasks from yesterday</p>
             )}
             {numberOfNewTasks === 1 && <p>+1 new task from yesterday</p>}
             {numberOfNewTasks === 0 && <p>No news tasks from yesterday</p>}
@@ -433,8 +435,8 @@ export default function Home() {
 
           {selectedTask && (
             <div>
-              <button onClick={handleTaskClick}>
-                <i class="fa-solid fa-arrow-right"></i>
+              <button onClick={handleTaskHide}>
+                <i className="fa-solid fa-arrow-right"></i>
               </button>
               <h2>{selectedTask.title}</h2>
               <p>{selectedTask.description}</p>
@@ -475,6 +477,8 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        <div className="sidebar-right-container"></div>
       </div>
     </div>
   );
