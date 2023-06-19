@@ -1,4 +1,4 @@
-// taskReducers.js
+// TaskReducers.js
 import {
   GET_TASKS_REQUEST,
   GET_TASKS_SUCCESS,
@@ -9,6 +9,9 @@ import {
   CREATE_TASK_REQUEST,
   CREATE_TASK_SUCCESS,
   CREATE_TASK_FAILURE,
+  DELETE_TASK_REQUEST,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const tasksListReducer = (
@@ -30,6 +33,12 @@ export const tasksListReducer = (
       );
       return { ...state, loading: false, tasks: updatedTasks };
     case UPDATE_TASK_FAILURE:
+      return { ...state, loading: false, error: action.payload };
+    case DELETE_TASK_REQUEST:
+      return { ...state, loading: true };
+    case DELETE_TASK_SUCCESS:
+      return { ...state, loading: false };
+    case DELETE_TASK_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

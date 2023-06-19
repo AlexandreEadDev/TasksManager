@@ -1,4 +1,4 @@
-// tasksActions.js
+// TaskActions.js
 import axios from "axios";
 import {
   GET_TASKS_REQUEST,
@@ -10,6 +10,9 @@ import {
   CREATE_TASK_REQUEST,
   CREATE_TASK_SUCCESS,
   CREATE_TASK_FAILURE,
+  DELETE_TASK_REQUEST,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const getTasks = () => async (dispatch, getState) => {
@@ -107,6 +110,37 @@ export const createTask = (newTask) => async (dispatch, getState) => {
     dispatch({
       type: CREATE_TASK_FAILURE,
       payload: error.response.data.message,
+    });
+  }
+};
+
+export const deleteTask = (taskId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: DELETE_TASK_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.delete(`/api/tasks/${taskId}`, config);
+
+    dispatch({ type: DELETE_TASK_SUCCESS });
+
+    // Refresh the tasks list
+    dispatch(getTasks());
+  } catch (error) {
+    dispatch({
+      type: DELETE_TASK_FAILURE,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };

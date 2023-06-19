@@ -1,8 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTasks, updateTask, createTask } from "../Redux/Actions/TaskActions";
+import {
+  getTasks,
+  updateTask,
+  createTask,
+  deleteTask,
+} from "../Redux/Actions/TaskActions";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -241,35 +247,6 @@ export default function Home() {
 
   const numberOfCompletedTasks = completedTasks.length;
 
-  const handleImageChange = (e) => {
-    setImage(e.target.value);
-  };
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleDescriptionChange = (e) => {
-    setDescription(e.target.value);
-  };
-  const handleDeadlineChange = (e) => {
-    setDeadline(e.target.value);
-  };
-  const handleAddTask = () => {
-    const newTask = {
-      image,
-      title,
-      description,
-      deadline,
-    };
-
-    dispatch(createTask(newTask));
-
-    // Reset the input fields
-    setImage("");
-    setTitle("");
-    setDescription("");
-    setDeadline("");
-  };
-
   const handleButtonClick = () => {
     if (!showFields) {
       setShowFields(true);
@@ -308,6 +285,20 @@ export default function Home() {
       }));
       setIsModified(true);
       setChecklistItem("");
+    }
+  };
+
+  const handleDeleteTask = (taskId) => {
+    // Dispatch the deleteTask action with the task ID
+    dispatch(deleteTask(taskId));
+  };
+
+  const handleContextMenuClick = (taskId, action) => {
+    if (action === "modify") {
+      // Handle the modify action here
+      // Implement your logic for modifying the task
+    } else if (action === "delete") {
+      handleDeleteTask(taskId);
     }
   };
 
@@ -401,15 +392,38 @@ export default function Home() {
 
           <ul>
             {filteredTasks.map((task) => (
-              <li key={task._id} onClick={() => handleTaskClick(task)}>
-                {task.image}
-                {task.title}
-                {task.description}
-                <span>
-                  {task.checklist.length > 0 &&
-                    `(${displayCheckedPercentage(task.checklist)})`}
-                </span>
-              </li>
+              <ContextMenuTrigger
+                id={`taskContextMenu-${task._id}`}
+                key={task._id}
+              >
+                <li onClick={() => handleTaskClick(task)}>
+                  {task.image}
+                  {task.title}
+                  {task.description}
+                  <span>
+                    {task.checklist.length > 0 &&
+                      `(${displayCheckedPercentage(task.checklist)})`}
+                  </span>
+                </li>
+
+                <ContextMenu
+                  id={`taskContextMenu-${task._id}`}
+                  className="context-menu"
+                >
+                  <MenuItem
+                    className="context-menu-item"
+                    onClick={() => handleContextMenuClick(task._id, "modify")}
+                  >
+                    Modify
+                  </MenuItem>
+                  <MenuItem
+                    className="context-menu-item"
+                    onClick={() => handleContextMenuClick(task._id, "delete")}
+                  >
+                    Delete
+                  </MenuItem>
+                </ContextMenu>
+              </ContextMenuTrigger>
             ))}
           </ul>
 
