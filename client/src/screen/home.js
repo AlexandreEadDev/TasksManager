@@ -68,7 +68,11 @@ export default function Home() {
   }, [selectedTask]);
 
   const handleTaskClick = (task) => {
-    setSelectedTask(task);
+    if (selectedTask === null) {
+      setSelectedTask(task);
+    } else {
+      setSelectedTask(null);
+    }
   };
 
   const handleCheckboxChange = (task, item, checked) => {
@@ -429,6 +433,9 @@ export default function Home() {
 
           {selectedTask && (
             <div>
+              <button onClick={handleTaskClick}>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
               <h2>{selectedTask.title}</h2>
               <p>{selectedTask.description}</p>
               <ul>
