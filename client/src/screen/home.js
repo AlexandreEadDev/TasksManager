@@ -25,6 +25,7 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
   const [checklistItem, setChecklistItem] = useState("");
+  const [showFields, setShowFields] = useState(false);
 
   useEffect(() => {
     dispatch(getTasks());
@@ -269,6 +270,47 @@ export default function Home() {
     setDeadline("");
   };
 
+  const handleButtonClick = () => {
+    if (!showFields) {
+      setShowFields(true);
+    } else {
+      // Check if all fields are filled
+      if (image && title) {
+        // Create a new task object
+        const newTask = {
+          image,
+          title,
+          description,
+          deadline,
+        };
+
+        dispatch(createTask(newTask));
+
+        // Clear the input fields
+        setImage("");
+        setTitle("");
+        setDescription("");
+        setDeadline("");
+
+        // Hide the input fields
+        setShowFields(false);
+      }
+    }
+  };
+
+  const handleAddChecklistItem = () => {
+    if (selectedTask) {
+      const updatedTask = { ...selectedTask };
+      updatedTask.checklist.push({ infoTask: checklistItem, isChecked: false });
+      setUpdatedTasks((prevState) => ({
+        ...prevState,
+        [selectedTask._id]: updatedTask,
+      }));
+      setIsModified(true);
+      setChecklistItem("");
+    }
+  };
+
   return (
     <div>
       <Sidebar />
@@ -304,45 +346,48 @@ export default function Home() {
         <div className="home-tasks-list-w">
           <h2>My Tasks</h2>
 
-          <div className="home-add-task-form">
-            <h2>Add Task</h2>
-            <div className="form-group">
-              <label htmlFor="image">Image:</label>
-              <input
-                type="text"
-                id="image"
-                value={image}
-                onChange={handleImageChange}
-              />
+          <button onClick={handleButtonClick}>Add Task</button>
+          {showFields && (
+            <div className="home-add-task-form">
+              <h2>Add Task</h2>
+              <div className="form-group">
+                <label htmlFor="image">Image:</label>
+                <input
+                  type="text"
+                  id="image"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="title">Title:</label>
+                <input
+                  type="text"
+                  id="title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                ></textarea>
+              </div>
+              <div className="form-group">
+                <label htmlFor="deadline">Deadline:</label>
+                <input
+                  type="date"
+                  id="deadline"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                />
+              </div>
+              <button onClick={handleButtonClick}>Save</button>
             </div>
-            <div className="form-group">
-              <label htmlFor="title">Title:</label>
-              <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={handleTitleChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description:</label>
-              <textarea
-                id="description"
-                value={description}
-                onChange={handleDescriptionChange}
-              ></textarea>
-            </div>
-            <div className="form-group">
-              <label htmlFor="deadline">Deadline:</label>
-              <input
-                type="date"
-                id="deadline"
-                value={deadline}
-                onChange={handleDeadlineChange}
-              />
-            </div>
-            <button onClick={handleAddTask}>Add Task</button>
-          </div>
+          )}
 
           <div>
             <button onClick={() => handleFilterClick("all")}>All Tasks</button>
@@ -353,6 +398,7 @@ export default function Home() {
               Completed
             </button>
           </div>
+
           <ul>
             {filteredTasks.map((task) => (
               <li key={task._id} onClick={() => handleTaskClick(task)}>
@@ -366,6 +412,7 @@ export default function Home() {
               </li>
             ))}
           </ul>
+
           {selectedTask && (
             <div>
               <h2>{selectedTask.title}</h2>
@@ -387,6 +434,18 @@ export default function Home() {
                     <label>{item.infoTask}</label>
                   </li>
                 ))}
+                <li>
+                  <input
+                    type="text"
+                    value={checklistItem}
+                    onChange={(e) => setChecklistItem(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddChecklistItem();
+                      }
+                    }}
+                  />
+                </li>
               </ul>
               <p>
                 Percentage Checked:

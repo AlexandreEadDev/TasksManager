@@ -102,4 +102,24 @@ taskRouter.put(
   })
 );
 
+// DELETE a task
+taskRouter.delete(
+  "/:id",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const task = await Task.findById(req.params.id);
+
+      if (task) {
+        await task.deleteOne();
+        res.json({ message: "Task deleted successfully" });
+      } else {
+        res.status(404).json({ message: "Task not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  })
+);
+
 export default taskRouter;
