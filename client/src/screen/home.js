@@ -306,8 +306,6 @@ export default function Home() {
     }
   };
 
-  // Toggle
-
   return (
     <div>
       <Sidebar />
@@ -316,34 +314,61 @@ export default function Home() {
       <div className="home-container">
         <div className="home-header">
           <div className="all-tasks-w">
-            <i className="fa-solid fa-list-ul"></i>
-            <h3>All Tasks</h3>
-            <p>{tasks ? tasks.length : "Loading..."}</p>
-            {numberOfNewTasks > 1 && (
-              <p>+{numberOfNewTasks} news tasks from yesterday</p>
-            )}
-            {numberOfNewTasks === 1 && <p>+1 new task from yesterday</p>}
-            {numberOfNewTasks === 0 && <p>No news tasks from yesterday</p>}
+            <div className="all-tasks-title">
+              <i class="fa-solid fa-list"></i>
+              <h3>All Tasks</h3>
+            </div>
+
+            <div className="all-tasks-info">
+              <p className="all-tasks-number">
+                {tasks ? tasks.length : "Loading..."}
+              </p>
+              {numberOfNewTasks > 1 && (
+                <p className="all-tasks-info-news">
+                  +{numberOfNewTasks} news tasks from yesterday
+                </p>
+              )}
+              {numberOfNewTasks === 1 && <p>+1 new task from yesterday</p>}
+              {numberOfNewTasks === 0 && <p>+0 new task from yesterday</p>}
+            </div>
           </div>
+
           <div className="in-progress-w">
-            <i className="fa-solid fa-percent"></i>
-            <h3>In Progress</h3>
-            <p>{numberOfInProgressTasks}</p>
-            <p>{`${diffSign}${percentDifference.toFixed(
-              2
-            )}% from yesterday`}</p>
+            <div className="in-progress-title">
+              <i className="fa-solid fa-percent"></i>
+              <h3>In Progress</h3>
+            </div>
+
+            <div className="in-progress-info">
+              <p className="in-progress-number">{numberOfInProgressTasks}</p>
+              <p>{`${diffSign}${percentDifference.toFixed(
+                2
+              )}% from yesterday`}</p>
+            </div>
           </div>
+
           <div className="completed-w">
-            <i className="fa-solid fa-check"></i>
-            <h3>Completed</h3>
-            <p>{numberOfCompletedTasks} tasks completed</p>
+            <div className="completed-title">
+              <i className="fa-solid fa-check"></i>
+              <h3>Completed</h3>
+            </div>
+
+            <p className="completed-info">
+              <p className="completed-number">{numberOfCompletedTasks}</p>{" "}
+              <p> tasks completed</p>
+            </p>
           </div>
         </div>
 
         <div className="home-tasks-list-w">
           <h2>My Tasks</h2>
+          <div className="home-add-w">
+            <div className="home-add-btn">
+              <i class="fa-solid fa-plus"></i>
+              <button onClick={handleButtonClick}>Add Task</button>
+            </div>
+          </div>
 
-          <button onClick={handleButtonClick}>Add Task</button>
           {showFields && (
             <div className="home-add-task-form">
               <h2>Add Task</h2>

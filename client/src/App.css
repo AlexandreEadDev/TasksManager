@@ -8,6 +8,7 @@ html {
 
 body {
   margin: 0;
+  overflow: hidden;
   margin-left: 5.5rem;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -137,6 +138,11 @@ code {
 
 .home-header {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-left: -5rem;
+  margin-right: 42rem;
 }
 
 /* contextMenu.css */
@@ -182,12 +188,46 @@ code {
   border-left: 1px solid #bababa;
 }
 
+/* home body */
+
+.home-tasks-list-w {
+  margin-right: 42rem;
+}
+
+.home-add-w {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 7.2rem;
+}
+
+.home-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 12rem;
+  height: 3rem;
+  color: white;
+  background-color: #356288;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  margin-right: 0px;
+}
+
+.home-add-btn button {
+  font-family: var(--poppins);
+  color: white;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .home-filter-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 15rem;
-  margin: 5rem 47rem 5rem 0;
+  margin: 5rem 0 5rem -5rem;
 }
 
 .home-filter-btn button {
@@ -200,4 +240,133 @@ code {
   background-color: white;
   cursor: pointer;
   width: fit-content;
+}
+
+.all-tasks-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.19deg,
+    #fe875d 0%,
+    rgba(254, 135, 93, 0.5) 100%
+  );
+  border-radius: 10px;
+}
+
+.all-tasks-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+
+.all-tasks-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.all-tasks-title i {
+  font-size: 2.2rem;
+}
+
+.all-tasks-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+
+.all-tasks-number {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.in-progress-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.6deg,
+    #38b3e2 20.24%,
+    rgba(170, 207, 221, 0.5) 117.76%
+  );
+  border-radius: 10px;
+}
+
+.in-progress-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+
+.in-progress-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.in-progress-title i {
+  font-size: 2.2rem;
+}
+
+.in-progress-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+
+.in-progress-number {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.completed-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.19deg,
+    #bdaadd 0%,
+    rgba(189, 170, 221, 0.5) 100%
+  );
+  border-radius: 10px;
+}
+
+.completed-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+
+.completed-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.completed-title i {
+  font-size: 2.2rem;
+}
+
+.completed-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+
+.completed-number {
+  font-size: 2rem;
+  margin: 0;
 }
