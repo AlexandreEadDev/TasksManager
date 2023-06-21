@@ -232,8 +232,6 @@ export default function Home() {
     };
   }, [checkedItems, totalItems]);
 
-  console.log(currentCheckedPercent);
-
   useEffect(() => {
     const diff = currentCheckedPercent - yesterdayCheckedPercent;
     setPercentDifference(diff);
