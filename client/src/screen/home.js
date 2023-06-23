@@ -9,6 +9,7 @@ import {
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import Calendar from "../components/Home/Calendar.js";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -341,7 +342,7 @@ export default function Home() {
               <p className="in-progress-number">{numberOfInProgressTasks}</p>
               <p>{`${diffSign}${percentDifference.toFixed(
                 2
-              )}% from yesterday`}</p>
+              )}% progress from yesterday`}</p>
             </div>
           </div>
 
@@ -358,12 +359,12 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="home-tasks-list-w">
+        <div className="home-task-container">
           <h2>My Tasks</h2>
           <div className="home-add-w">
-            <div className="home-add-btn">
+            <div className="home-add-btn" onClick={handleButtonClick}>
               <i class="fa-solid fa-plus"></i>
-              <button onClick={handleButtonClick}>Add Task</button>
+              <button>Add Task</button>
             </div>
           </div>
 
@@ -434,42 +435,49 @@ export default function Home() {
             </button>
           </div>
 
-          <ul>
-            {filteredTasks.map((task) => (
-              <ContextMenuTrigger
-                id={`taskContextMenu-${task._id}`}
-                key={task._id}
-              >
-                <li onClick={() => handleTaskClick(task)}>
-                  {task.image}
-                  {task.title}
-                  {task.description}
-                  <span>
-                    {task.checklist.length > 0 &&
-                      `(${displayCheckedPercentage(task.checklist)})`}
-                  </span>
-                </li>
-
-                <ContextMenu
+          <div className="home-tasks-list-w">
+            <ul className="scrollable-list">
+              {filteredTasks.map((task) => (
+                <ContextMenuTrigger
                   id={`taskContextMenu-${task._id}`}
-                  className="context-menu"
+                  key={task._id}
                 >
-                  <MenuItem
-                    className="context-menu-item"
-                    onClick={() => handleContextMenuClick(task._id, "modify")}
+                  <li onClick={() => handleTaskClick(task)}>
+                    <span className="task-image"> {task.image}</span>
+                    <div className="task-title-w">
+                      <span className="task-title"> {task.title}</span>
+                      <span className="task-description">
+                        {task.description}
+                      </span>
+                    </div>
+
+                    <span className="task-percents">
+                      {task.checklist.length > 0 &&
+                        `(${displayCheckedPercentage(task.checklist)})`}
+                    </span>
+                  </li>
+
+                  <ContextMenu
+                    id={`taskContextMenu-${task._id}`}
+                    className="context-menu"
                   >
-                    Modify
-                  </MenuItem>
-                  <MenuItem
-                    className="context-menu-item"
-                    onClick={() => handleContextMenuClick(task._id, "delete")}
-                  >
-                    Delete
-                  </MenuItem>
-                </ContextMenu>
-              </ContextMenuTrigger>
-            ))}
-          </ul>
+                    <MenuItem
+                      className="context-menu-item"
+                      onClick={() => handleContextMenuClick(task._id, "modify")}
+                    >
+                      Modify
+                    </MenuItem>
+                    <MenuItem
+                      className="context-menu-item"
+                      onClick={() => handleContextMenuClick(task._id, "delete")}
+                    >
+                      Delete
+                    </MenuItem>
+                  </ContextMenu>
+                </ContextMenuTrigger>
+              ))}
+            </ul>
+          </div>
 
           {selectedTask && (
             <div>
@@ -516,7 +524,9 @@ export default function Home() {
           )}
         </div>
 
-        <div className="sidebar-right-container"></div>
+        <div className="sidebar-right-container">
+          <Calendar />
+        </div>
       </div>
     </div>
   );

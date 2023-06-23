@@ -33,14 +33,12 @@ code {
   box-sizing: border-box;
   height: 10.8rem;
 }
-
 .button-w {
   display: flex;
   align-items: center;
   transform: translateX(5rem);
   gap: 5.5rem;
 }
-
 .button-w a {
   font-family: var(--poppins);
   font-size: 1.8rem;
@@ -50,7 +48,6 @@ code {
   color: #929292;
   text-decoration: none;
 }
-
 .button-w .tasksManager {
   font-family: var(--poppins);
   font-style: normal;
@@ -62,7 +59,6 @@ code {
   text-align: center;
   color: #000000;
 }
-
 .search-w {
   width: 35rem;
   height: 4.5rem;
@@ -76,7 +72,6 @@ code {
   gap: 1rem;
   font-size: 1.5rem;
 }
-
 .search {
   background: #eeeeee;
   font-family: var(--poppins);
@@ -86,7 +81,6 @@ code {
   outline: none;
   border: none;
 }
-
 .search::placeholder {
   color: #cac6c6;
 }
@@ -102,14 +96,12 @@ code {
   height: 100%;
   background-color: #eeeeee;
 }
-
 .sidebar-button {
   display: flex;
   flex-direction: column;
   margin-top: 12rem;
   gap: 3rem;
 }
-
 .sidebar-button a {
   position: relative;
   display: flex;
@@ -118,11 +110,9 @@ code {
   color: black;
   text-decoration: none;
 }
-
 .sidebar-button a i {
   font-size: 2.3rem;
 }
-
 .sidebar-logo {
   margin-top: 2.5rem;
   width: 6rem;
@@ -135,7 +125,6 @@ code {
 .home-container {
   margin: 5rem 0 0 15rem;
 }
-
 .home-header {
   display: flex;
   align-items: center;
@@ -143,6 +132,225 @@ code {
   gap: 3rem;
   margin-left: -5rem;
   margin-right: 42rem;
+}
+
+/* home header */
+
+.all-tasks-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.19deg,
+    #fe875d 0%,
+    rgba(254, 135, 93, 0.5) 100%
+  );
+  border-radius: 10px;
+}
+.all-tasks-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+.all-tasks-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+.all-tasks-title i {
+  font-size: 2.2rem;
+}
+.all-tasks-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+.all-tasks-number {
+  font-size: 2rem;
+  margin: 0;
+}
+.in-progress-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.6deg,
+    #38b3e2 20.24%,
+    rgba(170, 207, 221, 0.5) 117.76%
+  );
+  border-radius: 10px;
+}
+.in-progress-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+.in-progress-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+.in-progress-title i {
+  font-size: 2.2rem;
+}
+.in-progress-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+.in-progress-number {
+  font-size: 2rem;
+  margin: 0;
+}
+.completed-w {
+  font-family: var(--poppins);
+  width: 26rem;
+  height: 15rem;
+  background: linear-gradient(
+    286.19deg,
+    #bdaadd 0%,
+    rgba(189, 170, 221, 0.5) 100%
+  );
+  border-radius: 10px;
+}
+.completed-title {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin-top: 3.4rem;
+  margin-left: 2.4rem;
+  gap: 1.5rem;
+}
+.completed-title h3 {
+  margin: 0;
+  font-size: 2rem;
+}
+.completed-title i {
+  font-size: 2.2rem;
+}
+.completed-info {
+  display: flex;
+  color: white;
+  gap: 1rem;
+  margin-top: 3rem;
+  margin-left: 2.4rem;
+}
+.completed-number {
+  font-size: 2rem;
+  margin: 0;
+}
+
+/* home body */
+
+.home-task-container {
+  margin: 4rem 42rem 0 0;
+}
+.home-task-container h2 {
+  color: #000;
+  margin-left: 6rem;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  font-family: var(--poppins);
+  font-weight: 600;
+}
+.home-add-w {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 7.2rem;
+}
+.home-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 12rem;
+  height: 3rem;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #356288;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  margin-right: 0px;
+}
+.home-add-btn button {
+  font-family: var(--poppins);
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.home-filter-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15rem;
+  margin: 3rem 0 2rem -5rem;
+}
+.home-filter-btn button {
+  font-family: var(--poppins);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 27px;
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  width: fit-content;
+}
+.home-tasks-list-w {
+  max-height: 27rem;
+  overflow-y: scroll;
+}
+.home-tasks-list-w ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+.home-tasks-list-w ul li {
+  display: flex;
+  align-items: center;
+  height: 6rem;
+  width: 90%;
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.home-tasks-list-w ul li .task-image {
+  width: fit-content;
+  font-size: 3.5rem;
+  margin-left: 1.5rem;
+}
+
+.home-tasks-list-w ul li .task-title-w {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5rem;
+}
+
+.home-tasks-list-w ul li .task-title {
+  color: #000;
+  font-size: 1.2rem;
+  font-family: var(--poppins);
+  font-weight: 600;
+}
+
+.home-tasks-list-w ul li .task-description {
+  color: #929292;
+  font-size: 1rem;
+  font-family: var(--poppins);
+  font-weight: 600;
 }
 
 /* contextMenu.css */
@@ -156,7 +364,6 @@ code {
   border-radius: 4px;
   padding: 8px 0;
 }
-
 .context-menu-item {
   display: flex;
   align-items: center;
@@ -164,20 +371,16 @@ code {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .context-menu-item:hover {
   background-color: #f2f2f2;
 }
-
 .context-menu-item > i {
   margin-right: 8px;
 }
-
 .context-menu-divider {
   margin: 4px 0;
   border-top: 1px solid #e8e8e8;
 }
-
 .sidebar-right-container {
   position: absolute;
   width: 42rem;
@@ -188,210 +391,26 @@ code {
   border-left: 1px solid #bababa;
 }
 
-/* home body */
-
-.home-tasks-list-w {
-  margin-right: 42rem;
-}
-
-.home-add-w {
-  display: flex;
-  justify-content: flex-end;
-  margin-right: 7.2rem;
-}
-
-.home-add-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 12rem;
-  height: 3rem;
-  color: white;
-  background-color: #356288;
-  border-radius: 0.8rem;
-  cursor: pointer;
-  margin-right: 0px;
-}
-
-.home-add-btn button {
-  font-family: var(--poppins);
-  color: white;
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.home-filter-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15rem;
-  margin: 5rem 0 5rem -5rem;
-}
-
-.home-filter-btn button {
-  font-family: var(--poppins);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 1.4rem;
-  line-height: 27px;
-  border: none;
-  background-color: white;
-  cursor: pointer;
-  width: fit-content;
-}
-
-.all-tasks-w {
-  font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
-  background: linear-gradient(
-    286.19deg,
-    #fe875d 0%,
-    rgba(254, 135, 93, 0.5) 100%
-  );
-  border-radius: 10px;
-}
-
-.all-tasks-title {
-  display: flex;
-  align-items: center;
-  color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
-  gap: 1.5rem;
-}
-
-.all-tasks-title h3 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.all-tasks-title i {
-  font-size: 2.2rem;
-}
-
-.all-tasks-info {
-  display: flex;
-  color: white;
-  gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
-}
-
-.all-tasks-number {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.in-progress-w {
-  font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
-  background: linear-gradient(
-    286.6deg,
-    #38b3e2 20.24%,
-    rgba(170, 207, 221, 0.5) 117.76%
-  );
-  border-radius: 10px;
-}
-
-.in-progress-title {
-  display: flex;
-  align-items: center;
-  color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
-  gap: 1.5rem;
-}
-
-.in-progress-title h3 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.in-progress-title i {
-  font-size: 2.2rem;
-}
-
-.in-progress-info {
-  display: flex;
-  color: white;
-  gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
-}
-
-.in-progress-number {
-  font-size: 2rem;
-  margin: 0;
-}
-
-.completed-w {
-  font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
-  background: linear-gradient(
-    286.19deg,
-    #bdaadd 0%,
-    rgba(189, 170, 221, 0.5) 100%
-  );
-  border-radius: 10px;
-}
-
-.completed-title {
-  display: flex;
-  align-items: center;
-  color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
-  gap: 1.5rem;
-}
-
-.completed-title h3 {
-  margin: 0;
-  font-size: 2rem;
-}
-
-.completed-title i {
-  font-size: 2.2rem;
-}
-
-.completed-info {
-  display: flex;
-  color: white;
-  gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
-}
-
-.completed-number {
-  font-size: 2rem;
-  margin: 0;
-}
-
 /* home calendar */
 
 .home-calendar-container {
+  display: flex;
+  justify-content: center;
   margin: 5rem;
 }
-
 .dates-w {
   border-radius: 50;
   justify-content: center;
   align-items: center;
 }
-
 .day-list {
+  padding: 0;
   display: flex;
   gap: 2rem;
 }
-
 .day-list li {
   list-style-type: none;
 }
-
 .day-w {
   font-family: var(--poppins);
   display: flex;
@@ -399,12 +418,10 @@ code {
   align-items: center;
   gap: 1rem;
 }
-
 .dayName {
   color: #929292;
   text-transform: lowercase;
 }
-
 .dateNumber {
   display: inline-block;
   border-radius: 50%;
@@ -416,7 +433,6 @@ code {
   font-weight: 900;
   line-height: 30px;
 }
-
 .dateNumber.active {
   background: linear-gradient(
     360deg,
@@ -424,4 +440,41 @@ code {
     rgba(254, 135, 93, 0.64) 100%
   );
   color: white;
+}
+.carousel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: fit-content;
+  height: fit-content;
+}
+.carousel-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 2rem 0 0;
+  gap: 2rem;
+  cursor: pointer;
+  z-index: 2;
+}
+.carousel-btn i {
+  font-size: 1.8rem;
+  position: relative;
+  z-index: 2;
+  color: #929292;
+  transition: 0.5s;
+}
+.carousel-btn i:hover {
+  color: black;
+  transform: scale(1.2);
+}
+.carousel-btn i:active {
+  animation: btnAnimation 0.1s linear;
+}
+@keyframes btnAnimation {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1.1);
+  }
 }
