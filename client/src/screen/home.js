@@ -11,6 +11,7 @@ import Sidebar from "../components/sidebar";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
+import { CSSTransition } from "react-transition-group";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ export default function Home() {
   const { tasks } = listTasks;
 
   const [selectedTask, setSelectedTask] = useState(null);
+  const [animateTask, setAnimateTask] = useState(false);
   const [updatedTasks, setUpdatedTasks] = useState({});
   const [filterType, setFilterType] = useState("all");
   const [isModified, setIsModified] = useState(false);
@@ -71,11 +73,16 @@ export default function Home() {
 
   const handleTaskClick = (task) => {
     setSelectedTask(task);
+    setAnimateTask(true);
   };
-
-  function handleTaskHide() {
-    setSelectedTask(null);
-  }
+  const handleTaskHide = () => {
+    setAnimateTask(false);
+  };
+  useEffect(() => {
+    if (selectedTask) {
+      setAnimateTask(true);
+    }
+  }, [selectedTask]);
 
   const handleCheckboxChange = (task, item, checked) => {
     const updatedTask = { ...task };
@@ -509,7 +516,16 @@ export default function Home() {
           </div>
 
           {selectedTask && (
-            <div>
+            <div
+              className={`selected-task ${
+                animateTask ? "show slide-in" : "hide"
+              }`}
+              onAnimationEnd={() => {
+                if (!animateTask) {
+                  setSelectedTask(null); // Hide the selected task after the slide-out animation completes
+                }
+              }}
+            >
               <button onClick={handleTaskHide}>
                 <i className="fa-solid fa-arrow-right"></i>
               </button>
@@ -546,7 +562,7 @@ export default function Home() {
                 </li>
               </ul>
               <p>
-                Percentage Checked:
+                Percentage Checked:{" "}
                 {displayCheckedPercentage(selectedTask.checklist)}
               </p>
             </div>

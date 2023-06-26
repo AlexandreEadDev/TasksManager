@@ -308,7 +308,7 @@ code {
   width: fit-content;
 }
 .home-tasks-list-w {
-  max-height: 27rem;
+  max-height: 32rem;
   overflow-y: scroll;
 }
 .home-tasks-list-w ul {
@@ -369,6 +369,29 @@ code {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.2rem;
+}
+.selected-task {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: -60rem; /* Initial position outside the viewport */
+  background-color: white;
+  z-index: 3;
+  border-left: 1px solid #bababa;
+  width: 60rem;
+  height: 100%;
+  font-family: var(--poppins);
+  transition: right 0.3s; /* Transition the right property */
+}
+.selected-task.show {
+  right: 0; /* Slide in from the right */
+}
+.selected-task.hide {
+  right: -60rem; /* Slide out to the right */
+}
+.slide-in {
+  right: 0 !important; /* Ensure the slide-in effect takes place immediately */
 }
 
 /* contextMenu.css */
