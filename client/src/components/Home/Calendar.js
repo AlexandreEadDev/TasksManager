@@ -72,14 +72,23 @@ export default function Calendar() {
     );
   };
 
+  // Extract month and year from the selected date
+  const activeMonth = selectedDate.toLocaleString("en-US", { month: "long" });
+  const activeYear = selectedDate.getFullYear();
+
   return (
     <div className="home-calendar-container">
+      <div className="home-calendar-title">
+        <h1>Calendar</h1>
+        <p className="home-month-years">
+          {activeMonth}, {activeYear}
+        </p>
+      </div>
       <div className="carousel-container">
         <div className="carousel-btn">
           <i class="fa-solid fa-arrow-left" onClick={handlePreviousClick}></i>
           <i class="fa-solid fa-arrow-right" onClick={handleNextClick}></i>
         </div>
-
         <ul className="day-list">
           {dates
             .slice(carouselIndex, carouselIndex + 6)

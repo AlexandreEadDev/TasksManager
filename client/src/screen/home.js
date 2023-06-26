@@ -10,6 +10,7 @@ import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Calendar from "../components/Home/Calendar.js";
+import ProgressBar from "@ramonak/react-progress-bar";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -56,7 +57,7 @@ export default function Home() {
   const displayCheckedPercentage = (checklist) => {
     const checkedItems = checklist.filter((item) => item.isChecked);
     const percentage = (checkedItems.length / checklist.length) * 100;
-    return `${percentage.toFixed(2)}%`;
+    return percentage.toFixed(2);
   };
 
   useEffect(() => {
@@ -443,17 +444,45 @@ export default function Home() {
                   key={task._id}
                 >
                   <li onClick={() => handleTaskClick(task)}>
-                    <span className="task-image"> {task.image}</span>
-                    <div className="task-title-w">
-                      <span className="task-title"> {task.title}</span>
-                      <span className="task-description">
-                        {task.description}
-                      </span>
+                    <div className="task-title-container">
+                      <span className="task-image"> {task.image}</span>
+                      <div className="task-title-w">
+                        <span className="task-title"> {task.title}</span>
+                        <span className="task-description">
+                          {task.description}
+                        </span>
+                      </div>
                     </div>
 
                     <span className="task-percents">
-                      {task.checklist.length > 0 &&
-                        `(${displayCheckedPercentage(task.checklist)})`}
+                      {task.checklist.length > 0 ? (
+                        <>
+                          <div className="task-percent-progress">
+                            <span>Progress</span>
+                            {`${displayCheckedPercentage(task.checklist)}%`}
+                          </div>
+                          <ProgressBar
+                            completed={displayCheckedPercentage(task.checklist)}
+                            bgColor="#FE875D"
+                            height="0.25rem"
+                            isLabelVisible={false}
+                            baseBgColor="#FFC6B1"
+                            maxCompleted={100}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          No Tasks
+                          <ProgressBar
+                            completed={0}
+                            bgColor="#FE875D"
+                            height="0.25rem"
+                            isLabelVisible={false}
+                            baseBgColor="#FFC6B1"
+                            maxCompleted={100}
+                          />
+                        </>
+                      )}
                     </span>
                   </li>
 

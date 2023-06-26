@@ -7,8 +7,8 @@ html {
 }
 
 body {
-  margin: 0;
   overflow: hidden;
+  margin: 0;
   margin-left: 5.5rem;
   font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -31,7 +31,7 @@ code {
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  height: 10.8rem;
+  height: 8rem;
 }
 .button-w {
   display: flex;
@@ -123,7 +123,7 @@ code {
 /* HOME */
 
 .home-container {
-  margin: 5rem 0 0 15rem;
+  margin: 3rem 0 0 15rem;
 }
 .home-header {
   display: flex;
@@ -320,37 +320,55 @@ code {
 .home-tasks-list-w ul li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 6rem;
   width: 90%;
   box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
   cursor: pointer;
 }
-
 .home-tasks-list-w ul li .task-image {
   width: fit-content;
   font-size: 3.5rem;
   margin-left: 1.5rem;
 }
-
+.home-tasks-list-w li .task-title-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
 .home-tasks-list-w ul li .task-title-w {
   display: flex;
   flex-direction: column;
-  margin-left: 5rem;
 }
-
 .home-tasks-list-w ul li .task-title {
   color: #000;
   font-size: 1.2rem;
   font-family: var(--poppins);
   font-weight: 600;
 }
-
 .home-tasks-list-w ul li .task-description {
   color: #929292;
   font-size: 1rem;
   font-family: var(--poppins);
   font-weight: 600;
+}
+.task-percents {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5rem;
+  width: 15rem;
+}
+.progress-bar__fill {
+  height: 3px;
+  border-radius: 5rem;
+}
+.task-percent-progress {
+  font-family: var(--poppins);
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.2rem;
 }
 
 /* contextMenu.css */
@@ -385,7 +403,7 @@ code {
   position: absolute;
   width: 42rem;
   height: 100%;
-  margin-top: 10.8rem;
+  margin-top: 8rem;
   top: 0;
   right: 0;
   border-left: 1px solid #bababa;
@@ -394,9 +412,28 @@ code {
 /* home calendar */
 
 .home-calendar-container {
+  margin: 3rem;
+  padding: 0.5rem 2rem 0.5rem 2.5rem;
+  box-shadow: 0px 0.5px 2px 0px rgba(0, 0, 0, 0.25);
+}
+.home-calendar-title {
+  margin-bottom: -3rem;
+}
+.home-calendar-title h1 {
+  color: #000;
+  font-size: 2rem;
+  font-family: var(--poppins);
+  font-weight: 600;
+  margin-bottom: -1rem;
+}
+.home-month-years {
+  color: #929292;
+  font-size: 1.25rem;
+  font-family: var(--poppins);
+  font-weight: 600;
+}
+.home-month-years {
   display: flex;
-  justify-content: center;
-  margin: 5rem;
 }
 .dates-w {
   border-radius: 50;
@@ -445,7 +482,7 @@ code {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  width: fit-content;
+  width: 100%;
   height: fit-content;
 }
 .carousel-btn {
@@ -458,8 +495,6 @@ code {
 }
 .carousel-btn i {
   font-size: 1.8rem;
-  position: relative;
-  z-index: 2;
   color: #929292;
   transition: 0.5s;
 }
