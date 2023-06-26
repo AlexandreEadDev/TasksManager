@@ -470,6 +470,7 @@ code {
 }
 .day-list li {
   list-style-type: none;
+  cursor: pointer;
 }
 .day-w {
   font-family: var(--poppins);
@@ -500,6 +501,10 @@ code {
     rgba(254, 135, 93, 0.64) 100%
   );
   color: white;
+}
+.dateNumber.has-deadline {
+  border: red 1px solid;
+  color: black;
 }
 .carousel-container {
   display: flex;

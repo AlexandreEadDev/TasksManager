@@ -45,7 +45,6 @@ export const getTasks = () => async (dispatch, getState) => {
     });
   }
 };
-
 export const updateTask =
   (taskId, updatedTask) => async (dispatch, getState) => {
     try {
@@ -82,7 +81,6 @@ export const updateTask =
       });
     }
   };
-
 export const createTask = (newTask) => async (dispatch, getState) => {
   try {
     // Dispatch an action to indicate the creation request
@@ -113,7 +111,6 @@ export const createTask = (newTask) => async (dispatch, getState) => {
     });
   }
 };
-
 export const deleteTask = (taskId) => async (dispatch, getState) => {
   try {
     dispatch({ type: DELETE_TASK_REQUEST });
