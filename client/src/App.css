@@ -129,23 +129,24 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3rem;
+  gap: 5rem;
   margin-left: -5rem;
-  margin-right: 42rem;
+  margin-right: 44rem;
 }
 
 /* home header */
 
 .all-tasks-w {
   font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
+  width: 25rem;
+  height: 14rem;
   background: linear-gradient(
     286.19deg,
     #fe875d 0%,
     rgba(254, 135, 93, 0.5) 100%
   );
   border-radius: 10px;
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
 }
 .all-tasks-title {
   display: flex;
@@ -175,14 +176,15 @@ code {
 }
 .in-progress-w {
   font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
+  width: 25rem;
+  height: 14rem;
   background: linear-gradient(
     286.6deg,
     #38b3e2 20.24%,
     rgba(170, 207, 221, 0.5) 117.76%
   );
   border-radius: 10px;
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
 }
 .in-progress-title {
   display: flex;
@@ -212,14 +214,15 @@ code {
 }
 .completed-w {
   font-family: var(--poppins);
-  width: 26rem;
-  height: 15rem;
+  width: 25rem;
+  height: 14rem;
   background: linear-gradient(
     286.19deg,
     #bdaadd 0%,
     rgba(189, 170, 221, 0.5) 100%
   );
   border-radius: 10px;
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
 }
 .completed-title {
   display: flex;
@@ -251,7 +254,7 @@ code {
 /* home body */
 
 .home-task-container {
-  margin: 4rem 42rem 0 0;
+  margin: 4rem 44rem 0 0;
 }
 .home-task-container h2 {
   color: #000;
@@ -263,7 +266,8 @@ code {
 }
 .home-add-w {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-right: 7.2rem;
 }
 .home-add-btn {
@@ -275,10 +279,20 @@ code {
   height: 3rem;
   font-size: 1.2rem;
   color: white;
-  background-color: #356288;
+  background-color: #4b92ce;
+  background-image: linear-gradient(
+    315deg,
+    #264f72,
+    rgba(75, 146, 206, 0.5) 100%
+  );
+  transition: background-color 0.5s;
+
   border-radius: 0.8rem;
   cursor: pointer;
   margin-right: 0px;
+}
+.home-add-btn:hover {
+  background-color: #bdaadd;
 }
 .home-add-btn button {
   font-family: var(--poppins);
@@ -379,7 +393,7 @@ code {
   background-color: white;
   z-index: 3;
   border-left: 1px solid #bababa;
-  width: 60rem;
+  width: 46rem;
   height: 100%;
   font-family: var(--poppins);
   transition: right 0.3s; /* Transition the right property */
@@ -424,7 +438,7 @@ code {
 }
 .sidebar-right-container {
   position: absolute;
-  width: 42rem;
+  width: 44rem;
   height: 100%;
   margin-top: 8rem;
   top: 0;
@@ -466,6 +480,8 @@ code {
 .day-list {
   padding: 0;
   display: flex;
+  justify-content: center;
+  width: 100%;
   gap: 2rem;
 }
 .day-list li {
@@ -494,6 +510,10 @@ code {
   font-weight: 900;
   line-height: 30px;
 }
+.dateNumber.has-deadline {
+  border: red 1px solid;
+  color: black;
+}
 .dateNumber.active {
   background: linear-gradient(
     360deg,
@@ -501,10 +521,6 @@ code {
     rgba(254, 135, 93, 0.64) 100%
   );
   color: white;
-}
-.dateNumber.has-deadline {
-  border: red 1px solid;
-  color: black;
 }
 .carousel-container {
   display: flex;

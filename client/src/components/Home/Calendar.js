@@ -58,12 +58,13 @@ export default function Calendar() {
   const renderItem = ({ item, index }) => {
     const dayNumber = item.getDate();
     const dayString = getDayString(item);
-    const isActive = selectedDate.toDateString() === item.toDateString();
     const deadline = hasDeadline(item);
 
     const handleClick = () => {
-      onDatePress(item);
+      setSelectedDate(item);
     };
+
+    const isActive = selectedDate.toDateString() === item.toDateString();
 
     return (
       <li
@@ -95,6 +96,9 @@ export default function Calendar() {
   const activeMonth = selectedDate.toLocaleString("en-US", { month: "long" });
   const activeYear = selectedDate.getFullYear();
 
+  // Get current day
+  const currentDay = new Date().getDate();
+
   return (
     <div className="home-calendar-container">
       <div className="home-calendar-title">
@@ -118,6 +122,7 @@ export default function Calendar() {
         </ul>
       </div>
       <div className="status-bar" />
+      <p>Current day: {currentDay}</p>
     </div>
   );
 }

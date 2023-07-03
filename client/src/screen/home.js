@@ -368,8 +368,8 @@ export default function Home() {
         </div>
 
         <div className="home-task-container">
-          <h2>My Tasks</h2>
           <div className="home-add-w">
+            <h2>My Tasks</h2>
             <div className="home-add-btn" onClick={handleButtonClick}>
               <i class="fa-solid fa-plus"></i>
               <button>Add Task</button>
