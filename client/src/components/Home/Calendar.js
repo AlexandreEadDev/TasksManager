@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 export default function Calendar() {
   const [todayDate, setTodayDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
   const [carouselIndex, setCarouselIndex] = useState(3);
 
   const tasksList = useSelector((state) => state.tasksList);
@@ -17,9 +17,7 @@ export default function Calendar() {
   function getDayString(date) {
     return date.toString().split(" ")[0];
   }
-  function isToday(date) {
-    return new Date().toDateString() === date.toDateString();
-  }
+
   function generateHorizontalCalendarDates(days) {
     const today = new Date();
     let result = [];
@@ -61,43 +59,31 @@ export default function Calendar() {
     const deadline = hasDeadline(item);
 
     const handleClick = () => {
-      setSelectedDate(item);
+      setSelectedDate(selectedDate === item ? null : item);
     };
 
-    const isActive = selectedDate.toDateString() === item.toDateString();
+    const isActive = selectedDate
+      ? selectedDate.toDateString() === item.toDateString()
+      : false;
+    const isToday = todayDate.toDateString() === item.toDateString();
 
     return (
       <li
         key={index}
         className={`day-w ${isActive ? "active" : ""} ${
           deadline ? "has-deadline" : ""
-        }`}
+        } ${isToday ? "today" : ""}`}
         onClick={handleClick}
       >
-        <span
-          className={`dayName ${isActive ? "active" : ""} ${
-            deadline ? "has-deadline" : ""
-          }`}
-        >
-          {isToday(item) ? "today" : dayString}
-        </span>
-        <span
-          className={`dateNumber ${isActive ? "active" : ""} ${
-            deadline ? "has-deadline" : ""
-          }`}
-        >
-          {dayNumber}
-        </span>
+        <span className="dayName"> {dayString}</span>
+        <span className="dateNumber">{dayNumber}</span>
       </li>
     );
   };
 
   // Extract month and year from the selected date
-  const activeMonth = selectedDate.toLocaleString("en-US", { month: "long" });
-  const activeYear = selectedDate.getFullYear();
-
-  // Get current day
-  const currentDay = new Date().getDate();
+  const activeMonth = todayDate.toLocaleString("en-US", { month: "long" });
+  const activeYear = todayDate.getFullYear();
 
   return (
     <div className="home-calendar-container">
@@ -122,7 +108,6 @@ export default function Calendar() {
         </ul>
       </div>
       <div className="status-bar" />
-      <p>Current day: {currentDay}</p>
     </div>
   );
 }

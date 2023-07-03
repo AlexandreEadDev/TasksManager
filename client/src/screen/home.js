@@ -24,6 +24,7 @@ export default function Home() {
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [animateTask, setAnimateTask] = useState(false);
+  const [animateAdd, setAnimateAdd] = useState(false);
   const [updatedTasks, setUpdatedTasks] = useState({});
   const [filterType, setFilterType] = useState("all");
   const [isModified, setIsModified] = useState(false);
@@ -35,7 +36,6 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
   const [checklistItem, setChecklistItem] = useState("");
-  const [showFields, setShowFields] = useState(false);
 
   useEffect(() => {
     dispatch(getTasks());
@@ -74,6 +74,7 @@ export default function Home() {
   const handleTaskClick = (task) => {
     setSelectedTask(task);
     setAnimateTask(true);
+    setAnimateAdd(false);
   };
   const handleTaskHide = () => {
     setAnimateTask(false);
@@ -83,6 +84,16 @@ export default function Home() {
       setAnimateTask(true);
     }
   }, [selectedTask]);
+
+  const handleClickAdd = () => {
+    if (animateAdd === false) {
+      setAnimateTask(false);
+      setAnimateAdd(true);
+    } else {
+      setAnimateAdd(false);
+    }
+    console.log(animateAdd);
+  };
 
   const handleCheckboxChange = (task, item, checked) => {
     const updatedTask = { ...task };
@@ -258,31 +269,26 @@ export default function Home() {
 
   const numberOfCompletedTasks = completedTasks.length;
 
-  const handleButtonClick = () => {
-    if (!showFields) {
-      setShowFields(true);
-    } else {
-      // Check if all fields are filled
-      if (image && title) {
-        // Create a new task object
-        const newTask = {
-          image,
-          title,
-          description,
-          deadline,
-        };
+  const handleButtonSaveClick = () => {
+    // Check if all fields are filled
+    if (image && title) {
+      // Create a new task object
+      const newTask = {
+        image,
+        title,
+        description,
+        deadline,
+      };
 
-        dispatch(createTask(newTask));
+      dispatch(createTask(newTask));
 
-        // Clear the input fields
-        setImage("");
-        setTitle("");
-        setDescription("");
-        setDeadline("");
+      // Clear the input fields
+      setImage("");
+      setTitle("");
+      setDescription("");
+      setDeadline("");
 
-        // Hide the input fields
-        setShowFields(false);
-      }
+      // Hide the input fields
     }
   };
 
@@ -370,53 +376,55 @@ export default function Home() {
         <div className="home-task-container">
           <div className="home-add-w">
             <h2>My Tasks</h2>
-            <div className="home-add-btn" onClick={handleButtonClick}>
+            <div className="home-add-btn" onClick={handleClickAdd}>
               <i class="fa-solid fa-plus"></i>
               <button>Add Task</button>
             </div>
           </div>
 
-          {showFields && (
-            <div className="home-add-task-form">
-              <h2>Add Task</h2>
-              <div className="form-group">
-                <label htmlFor="image">Image:</label>
-                <input
-                  type="text"
-                  id="image"
-                  value={image}
-                  onChange={(e) => setImage(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="title">Title:</label>
-                <input
-                  type="text"
-                  id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="description">Description:</label>
-                <textarea
-                  id="description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
-              <div className="form-group">
-                <label htmlFor="deadline">Deadline:</label>
-                <input
-                  type="date"
-                  id="deadline"
-                  value={deadline}
-                  onChange={(e) => setDeadline(e.target.value)}
-                />
-              </div>
-              <button onClick={handleButtonClick}>Save</button>
+          <div
+            className={`home-add-task-form ${
+              animateAdd ? "show slide-in" : "hide"
+            }`}
+          >
+            <h2>Add Task</h2>
+            <div className="form-group">
+              <label htmlFor="image">Image:</label>
+              <input
+                type="text"
+                id="image"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              />
             </div>
-          )}
+            <div className="form-group">
+              <label htmlFor="title">Title:</label>
+              <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Description:</label>
+              <textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label htmlFor="deadline">Deadline:</label>
+              <input
+                type="date"
+                id="deadline"
+                value={deadline}
+                onChange={(e) => setDeadline(e.target.value)}
+              />
+            </div>
+            <button onClick={handleButtonSaveClick}>Save</button>
+          </div>
 
           <div className="home-filter-btn">
             <button
@@ -517,12 +525,10 @@ export default function Home() {
 
           {selectedTask && (
             <div
-              className={`selected-task ${
-                animateTask ? "show slide-in" : "hide"
-              }`}
+              className={`selected-task ${animateTask ? "show" : "hide"}`}
               onAnimationEnd={() => {
                 if (!animateTask) {
-                  setSelectedTask(null); // Hide the selected task after the slide-out animation completes
+                  setSelectedTask(null);
                 }
               }}
             >

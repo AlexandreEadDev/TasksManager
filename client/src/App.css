@@ -309,6 +309,7 @@ code {
   justify-content: center;
   gap: 15rem;
   margin: 3rem 0 2rem -5rem;
+  transition: 0.5s;
 }
 .home-filter-btn button {
   font-family: var(--poppins);
@@ -407,6 +408,29 @@ code {
 .slide-in {
   right: 0 !important; /* Ensure the slide-in effect takes place immediately */
 }
+/* add task */
+
+.home-add-task-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #bababa;
+  width: 46rem;
+  z-index: 2;
+  padding: 2rem;
+  bottom: 0;
+  right: 0;
+  transition: 0.3s;
+}
+.home-add-task-form.hide {
+  transform: translateY(40rem);
+}
+.home-add-task-form.show {
+  transform: translateY(0);
+}
 
 /* contextMenu.css */
 
@@ -483,6 +507,7 @@ code {
   justify-content: center;
   width: 100%;
   gap: 2rem;
+  margin-bottom: 3.2rem;
 }
 .day-list li {
   list-style-type: none;
@@ -510,11 +535,13 @@ code {
   font-weight: 900;
   line-height: 30px;
 }
-.dateNumber.has-deadline {
+.day-w.has-deadline .dateNumber {
+  width: 3rem;
+  height: 3rem;
   border: red 1px solid;
   color: black;
 }
-.dateNumber.active {
+.day-w.today .dateNumber {
   background: linear-gradient(
     360deg,
     #fe875d 0%,
