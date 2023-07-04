@@ -11,7 +11,7 @@ import Sidebar from "../components/sidebar";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { CSSTransition } from "react-transition-group";
+import dayjs from "dayjs";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -36,6 +36,8 @@ export default function Home() {
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
   const [checklistItem, setChecklistItem] = useState("");
+  const [showInput, setShowInput] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(null);
 
   useEffect(() => {
     dispatch(getTasks());
@@ -293,7 +295,7 @@ export default function Home() {
   };
 
   const handleAddChecklistItem = () => {
-    if (selectedTask) {
+    if (selectedTask && checklistItem.trim() !== "") {
       const updatedTask = { ...selectedTask };
       updatedTask.checklist.push({ infoTask: checklistItem, isChecked: false });
       setUpdatedTasks((prevState) => ({
@@ -304,19 +306,20 @@ export default function Home() {
       setChecklistItem("");
     }
   };
-
   const handleDeleteTask = (taskId) => {
-    // Dispatch the deleteTask action with the task ID
     dispatch(deleteTask(taskId));
+    setSelectedTask(false);
   };
 
-  const handleContextMenuClick = (taskId, action) => {
-    if (action === "modify") {
-      // Handle the modify action here
-      // Implement your logic for modifying the task
-    } else if (action === "delete") {
+  const handleContextMenuClick = (taskId, action, task) => {
+    if (action === "delete") {
       handleDeleteTask(taskId);
     }
+  };
+
+  const handleClick = () => {
+    setShowInput(!showInput);
+    setSlideDirection(showInput ? "slide-left" : "slide-right");
   };
 
   return (
@@ -382,11 +385,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div
-            className={`home-add-task-form ${
-              animateAdd ? "show slide-in" : "hide"
-            }`}
-          >
+          <div className={`home-add-task-form ${animateAdd ? "show" : "hide"}`}>
             <h2>Add Task</h2>
             <div className="form-group">
               <label htmlFor="image">Image:</label>
@@ -507,7 +506,7 @@ export default function Home() {
                   >
                     <MenuItem
                       className="context-menu-item"
-                      onClick={() => handleContextMenuClick(task._id, "modify")}
+                      onClick={() => handleTaskClick(task)}
                     >
                       Modify
                     </MenuItem>
@@ -532,11 +531,51 @@ export default function Home() {
                 }
               }}
             >
-              <button onClick={handleTaskHide}>
-                <i className="fa-solid fa-arrow-right"></i>
-              </button>
-              <h2>{selectedTask.title}</h2>
-              <p>{selectedTask.description}</p>
+              <div className="selected-task-header">
+                <div className="selected-task-button">
+                  <button onClick={handleTaskHide}>
+                    <i className="fa-solid fa-arrow-right"></i>
+                  </button>
+                  <button
+                    className="selected-task-delete"
+                    onClick={() => handleDeleteTask(selectedTask._id)}
+                  >
+                    <i class="fa-regular fa-trash-can"></i>
+                  </button>
+                </div>
+
+                <h2>{selectedTask.title}</h2>
+                <p>
+                  <i class="fa-regular fa-clipboard"></i>
+                  Description <span>{selectedTask.description}</span>
+                </p>
+                <p>
+                  <i class="fa-regular fa-clock"></i>
+                  Created At
+                  <span>
+                    {dayjs(selectedTask.createdAt).format("MMMM DD, YYYY")}
+                  </span>
+                </p>
+                {selectedTask.deadline ? (
+                  <p>
+                    <i class="fa-regular fa-clock"></i>
+                    Deadline
+                    <span>
+                      {dayjs(selectedTask.deadline).format("MMMM DD, YYYY")}
+                    </span>
+                  </p>
+                ) : (
+                  <></>
+                )}
+                <p>
+                  <i class="fa-regular fa-clock"></i>
+                  Updated At
+                  <span>
+                    {dayjs(selectedTask.updatedAt).format("MMMM DD, YYYY")}
+                  </span>
+                </p>
+              </div>
+
               <ul>
                 {selectedTask.checklist.map((item) => (
                   <li key={item._id}>
@@ -554,17 +593,32 @@ export default function Home() {
                     <label>{item.infoTask}</label>
                   </li>
                 ))}
-                <li>
-                  <input
-                    type="text"
-                    value={checklistItem}
-                    onChange={(e) => setChecklistItem(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleAddChecklistItem();
-                      }
-                    }}
-                  />
+                <li
+                  className={`button-container ${
+                    showInput ? "show-input" : ""
+                  }`}
+                >
+                  <button
+                    className={`slide-button ${
+                      slideDirection !== null ? slideDirection : ""
+                    }`}
+                    onClick={handleClick}
+                  >
+                    <i className="fa-solid fa-plus"></i>
+                  </button>
+                  {showInput && (
+                    <input
+                      type="text"
+                      required
+                      value={checklistItem}
+                      onChange={(e) => setChecklistItem(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAddChecklistItem();
+                        }
+                      }}
+                    />
+                  )}
                 </li>
               </ul>
               <p>

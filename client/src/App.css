@@ -256,19 +256,19 @@ code {
 .home-task-container {
   margin: 4rem 44rem 0 0;
 }
-.home-task-container h2 {
+.home-add-w {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 7.2rem;
+}
+.home-add-w h2 {
   color: #000;
   margin-left: 6rem;
   margin-bottom: 1rem;
   font-size: 1.8rem;
   font-family: var(--poppins);
   font-weight: 600;
-}
-.home-add-w {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 7.2rem;
 }
 .home-add-btn {
   display: flex;
@@ -385,18 +385,20 @@ code {
   justify-content: space-between;
   margin-bottom: 0.2rem;
 }
+
+/* .selected-task */
 .selected-task {
+  position: absolute;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  right: -60rem; /* Initial position outside the viewport */
-  background-color: white;
-  z-index: 3;
-  border-left: 1px solid #bababa;
+  align-items: center;
   width: 46rem;
   height: 100%;
+  z-index: 3;
+  top: 0;
   font-family: var(--poppins);
+  background-color: white;
+  border-left: 1px solid #bababa;
   transition: right 0.3s; /* Transition the right property */
 }
 .selected-task.show {
@@ -405,31 +407,122 @@ code {
 .selected-task.hide {
   right: -60rem; /* Slide out to the right */
 }
-.slide-in {
-  right: 0 !important; /* Ensure the slide-in effect takes place immediately */
+.selected-task-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #bababa;
 }
-/* add task */
+.selected-task-button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.selected-task-button button {
+  background-color: white;
+  border: none;
+  margin-top: 1rem;
+  font-size: 2rem;
+  margin-left: -1rem;
+  border-radius: 5px;
+  color: #bababa;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.selected-task-button button:hover {
+  color: #000;
+  background-color: #d2cdcd;
+}
+.selected-task-header h2 {
+  font-size: 2rem;
+  font-family: var(--poppins);
+  font-weight: 700;
+  margin-left: 4rem;
+}
+.selected-task-header p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(146, 146, 146);
+  margin-left: 4rem;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+.selected-task-header span {
+  color: #000;
+  margin-left: 4rem;
+}
+.selected-task ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 90%;
+  margin-left: 2rem;
+  list-style-type: none;
+}
+.selected-task input {
+}
+.slide-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background-color: blue;
+  color: white;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  margin-left: 0;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+.slide-left {
+  animation-name: slide-left;
+}
+.slide-right {
+  animation-name: slide-right;
+}
+@keyframes slide-left {
+  0% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
 
+@keyframes slide-right {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+
+/* add task */
 .home-add-task-form {
+  position: absolute;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  position: absolute;
-  background-color: white;
-  border: 1px solid #bababa;
   width: 46rem;
-  z-index: 2;
-  padding: 2rem;
-  bottom: 0;
+  height: 100%;
+  z-index: 3;
+  top: 0;
   right: 0;
+  font-family: var(--poppins);
+  border: 1px solid #bababa;
+  background-color: white;
   transition: 0.3s;
 }
 .home-add-task-form.hide {
-  transform: translateY(40rem);
-}
-.home-add-task-form.show {
-  transform: translateY(0);
+  transform: translateX(100rem);
 }
 
 /* contextMenu.css */
