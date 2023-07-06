@@ -162,8 +162,8 @@ export default function Home() {
 
   const handleFilterClick = (type) => {
     if (isModified) {
-      saveChanges(); // Save the changes before switching filter
-      setIsModified(false); // Reset isModified to false
+      saveChanges();
+      setIsModified(false);
     }
     setFilterType(type);
     setSelectedTask(null);
@@ -297,7 +297,7 @@ export default function Home() {
   const handleAddChecklistItem = () => {
     if (selectedTask && checklistItem.trim() !== "") {
       const updatedTask = { ...selectedTask };
-      updatedTask.checklist.push({ infoTask: checklistItem, isChecked: false });
+      updatedTask.checklist.push({ infoTask: checklistItem });
       setUpdatedTasks((prevState) => ({
         ...prevState,
         [selectedTask._id]: updatedTask,
@@ -306,6 +306,7 @@ export default function Home() {
       setChecklistItem("");
     }
   };
+
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
     setSelectedTask(false);
@@ -319,7 +320,7 @@ export default function Home() {
 
   const handleClick = () => {
     setShowInput(!showInput);
-    setSlideDirection(showInput ? "slide-left" : "slide-right");
+    setSlideDirection(showInput ? "add-close" : "add-open");
   };
 
   return (
@@ -590,7 +591,16 @@ export default function Home() {
                         )
                       }
                     />
-                    <label>{item.infoTask}</label>
+
+                    <label
+                      style={{
+                        textDecoration: item.isChecked
+                          ? "line-through"
+                          : "none",
+                      }}
+                    >
+                      {item.infoTask}
+                    </label>
                   </li>
                 ))}
                 <li
@@ -598,33 +608,29 @@ export default function Home() {
                     showInput ? "show-input" : ""
                   }`}
                 >
-                  <button
-                    className={`slide-button ${
+                  <button className={`slide-button `} onClick={handleClick}>
+                    <i
+                      className={`fa-solid fa-plus ${
+                        slideDirection !== null ? slideDirection : ""
+                      }`}
+                    ></i>
+                  </button>
+                  <input
+                    className={`add-input ${
                       slideDirection !== null ? slideDirection : ""
                     }`}
-                    onClick={handleClick}
-                  >
-                    <i className="fa-solid fa-plus"></i>
-                  </button>
-                  {showInput && (
-                    <input
-                      type="text"
-                      required
-                      value={checklistItem}
-                      onChange={(e) => setChecklistItem(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          handleAddChecklistItem();
-                        }
-                      }}
-                    />
-                  )}
+                    type="text"
+                    required
+                    value={checklistItem}
+                    onChange={(e) => setChecklistItem(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleAddChecklistItem();
+                      }
+                    }}
+                  />
                 </li>
               </ul>
-              <p>
-                Percentage Checked:{" "}
-                {displayCheckedPercentage(selectedTask.checklist)}
-              </p>
             </div>
           )}
         </div>

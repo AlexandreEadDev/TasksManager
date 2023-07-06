@@ -122,4 +122,34 @@ taskRouter.delete(
   })
 );
 
+// DELETE an element from the checklist
+taskRouter.delete(
+  "/:taskId/checklist/:itemId",
+  protect,
+  asyncHandler(async (req, res) => {
+    try {
+      const { taskId, itemId } = req.params;
+      const task = await Task.findById(taskId);
+
+      if (task) {
+        const checklistItem = task.checklist.find(
+          (item) => item._id.toString() === itemId
+        );
+
+        if (checklistItem) {
+          task.checklist.pull(checklistItem);
+          await task.save();
+          res.json({ message: "Checklist item deleted successfully" });
+        } else {
+          res.status(404).json({ message: "Checklist item not found" });
+        }
+      } else {
+        res.status(404).json({ message: "Task not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  })
+);
+
 export default taskRouter;

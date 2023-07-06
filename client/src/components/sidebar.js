@@ -8,6 +8,12 @@ export default function Sidebar() {
     return location.pathname === pathname;
   };
 
+  const currentHour = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
   return (
     <div className="sidebar-container">
       <div className="sidebar-logo"></div>
@@ -29,6 +35,7 @@ export default function Sidebar() {
           {isActive("/calendar") && <span className="page-bar"></span>}
         </Link>
       </div>
+      <div className="sidebar-hour">{currentHour}</div>
     </div>
   );
 }

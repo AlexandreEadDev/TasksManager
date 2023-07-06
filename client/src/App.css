@@ -119,6 +119,12 @@ code {
   height: 6rem;
   background-color: #d9d9d9;
 }
+.sidebar-hour {
+  position: absolute;
+  bottom: 2.5rem;
+  font-size: 1.5rem;
+  font-family: var(--poppins);
+}
 
 /* HOME */
 
@@ -455,36 +461,59 @@ code {
   margin-left: 4rem;
 }
 .selected-task ul {
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   width: 90%;
-  margin-left: 2rem;
+  padding: 0;
+  margin-left: 4rem;
   list-style-type: none;
 }
-.selected-task input {
+.add-input {
+  outline: none;
+  margin-top: 1rem;
+  margin-left: 2rem;
+  border: none;
+  visibility: hidden;
+  width: 0;
+  border-bottom: 1px solid #757575;
+  transition: 1s;
+}
+.add-input.add-open {
+  visibility: visible;
+  width: 200px;
 }
 .slide-button {
+  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  bottom: 3rem;
+  right: 3rem;
   border: none;
-  background-color: blue;
-  color: white;
+  background-color: #4b92ce;
+  background-image: linear-gradient(
+    315deg,
+    #264f72,
+    rgba(75, 146, 206, 0.5) 100%
+  );
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
   cursor: pointer;
   outline: none;
-  position: relative;
-  margin-left: 0;
+}
+.slide-button i {
   animation-duration: 1s;
   animation-fill-mode: forwards;
+  color: white;
+  font-size: 2.5rem;
 }
-.slide-left {
+.add-close {
   animation-name: slide-left;
 }
-.slide-right {
+.add-open {
   animation-name: slide-right;
 }
 @keyframes slide-left {
