@@ -12,6 +12,9 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
+  DELETE_CHECKLIST_ITEM_REQUEST,
+  DELETE_CHECKLIST_ITEM_SUCCESS,
+  DELETE_CHECKLIST_ITEM_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const tasksListReducer = (
@@ -55,6 +58,21 @@ export const createTaskReducer = (
     case CREATE_TASK_SUCCESS:
       return { ...state, loading: false, task: action.payload };
     case CREATE_TASK_FAILURE:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export const deleteChecklistItemReducer = (
+  state = { loading: false, error: null },
+  action
+) => {
+  switch (action.type) {
+    case DELETE_CHECKLIST_ITEM_REQUEST:
+      return { ...state, loading: true };
+    case DELETE_CHECKLIST_ITEM_SUCCESS:
+      return { ...state, loading: false };
+    case DELETE_CHECKLIST_ITEM_FAILURE:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

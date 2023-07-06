@@ -5,6 +5,7 @@ import {
   updateTask,
   createTask,
   deleteTask,
+  deleteChecklistItem,
 } from "../Redux/Actions/TaskActions";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
@@ -114,10 +115,23 @@ export default function Home() {
   };
 
   const saveChanges = useCallback(() => {
-    Object.keys(updatedTasks).forEach((taskId) => {
+    const tasksToUpdate = Object.keys(updatedTasks).map((taskId) => {
       const updatedTask = updatedTasks[taskId];
+      return {
+        taskId,
+        updatedTask: {
+          ...updatedTask,
+          checklist: updatedTask.checklist.filter(
+            (item) => item._id !== taskId
+          ),
+        },
+      };
+    });
+
+    tasksToUpdate.forEach(({ taskId, updatedTask }) => {
       dispatch(updateTask(taskId, updatedTask));
     });
+
     setUpdatedTasks({});
   }, [dispatch, updatedTasks]);
 
@@ -307,12 +321,28 @@ export default function Home() {
     }
   };
 
+  const handleDeleteChecklistItem = (taskId, itemId) => {
+    setUpdatedTasks((prevState) => {
+      const updatedTask = { ...prevState[taskId] };
+      updatedTask.checklist = updatedTask.checklist.filter(
+        (item) => item._id !== itemId
+      );
+      return {
+        ...prevState,
+        [taskId]: updatedTask,
+      };
+    });
+
+    // Dispatch the deleteChecklistItem action if needed
+    dispatch(deleteChecklistItem(taskId, itemId));
+  };
+
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
     setSelectedTask(false);
   };
 
-  const handleContextMenuClick = (taskId, action, task) => {
+  const handleContextMenuClick = (taskId, action) => {
     if (action === "delete") {
       handleDeleteTask(taskId);
     }
@@ -544,7 +574,7 @@ export default function Home() {
                     <i class="fa-regular fa-trash-can"></i>
                   </button>
                 </div>
-
+                <p>{selectedTask.image}</p>
                 <h2>{selectedTask.title}</h2>
                 <p>
                   <i class="fa-regular fa-clipboard"></i>
@@ -601,6 +631,14 @@ export default function Home() {
                     >
                       {item.infoTask}
                     </label>
+
+                    <button
+                      onClick={() =>
+                        handleDeleteChecklistItem(selectedTask._id, item._id)
+                      }
+                    >
+                      Delete
+                    </button>
                   </li>
                 ))}
                 <li

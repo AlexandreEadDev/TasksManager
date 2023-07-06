@@ -13,6 +13,9 @@ import {
   DELETE_TASK_REQUEST,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
+  DELETE_CHECKLIST_ITEM_REQUEST,
+  DELETE_CHECKLIST_ITEM_SUCCESS,
+  DELETE_CHECKLIST_ITEM_FAILURE,
 } from "../Constants/TaskConstants.js";
 
 export const getTasks = () => async (dispatch, getState) => {
@@ -52,6 +55,7 @@ export const updateTask =
 
       const {
         userLogin: { userInfo },
+        tasksList: { tasks },
       } = getState();
 
       const config = {
@@ -67,9 +71,13 @@ export const updateTask =
         config
       );
 
+      const updatedTasks = tasks.map((task) =>
+        task._id === taskId ? data : task
+      );
+
       dispatch({
         type: UPDATE_TASK_SUCCESS,
-        payload: data,
+        payload: updatedTasks,
       });
     } catch (error) {
       dispatch({
@@ -81,6 +89,7 @@ export const updateTask =
       });
     }
   };
+
 export const createTask = (newTask) => async (dispatch, getState) => {
   try {
     // Dispatch an action to indicate the creation request
@@ -141,3 +150,34 @@ export const deleteTask = (taskId) => async (dispatch, getState) => {
     });
   }
 };
+export const deleteChecklistItem =
+  (taskId, itemId) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: DELETE_CHECKLIST_ITEM_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.delete(`/api/tasks/${taskId}/checklist/${itemId}`, config);
+
+      dispatch({
+        type: DELETE_CHECKLIST_ITEM_SUCCESS,
+        payload: { taskId, itemId },
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_CHECKLIST_ITEM_FAILURE,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      });
+    }
+  };
