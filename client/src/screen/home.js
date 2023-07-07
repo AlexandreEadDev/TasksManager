@@ -16,12 +16,15 @@ import dayjs from "dayjs";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const listTasks = useSelector((state) => state.tasksList);
+  const { tasks } = listTasks;
+
+  // VAR
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  const listTasks = useSelector((state) => state.tasksList);
-  const { tasks } = listTasks;
+  // USE STATE
 
   const [selectedTask, setSelectedTask] = useState(null);
   const [animateTask, setAnimateTask] = useState(false);
@@ -40,80 +43,7 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
 
-  useEffect(() => {
-    dispatch(getTasks());
-  }, [dispatch]);
-
-  const newTasks = tasks.filter((task) => {
-    const createdAt = new Date(task.createdAt);
-    return createdAt >= yesterday && createdAt < today;
-  });
-
-  const numberOfNewTasks = newTasks.length;
-
-  const inProgressTasks = tasks.filter((task) => {
-    const hasUnchecked = task.checklist.some((item) => !item.isChecked);
-    const hasChecked = task.checklist.some((item) => item.isChecked);
-    return hasUnchecked && hasChecked;
-  });
-
-  const numberOfInProgressTasks = inProgressTasks.length;
-
-  const displayCheckedPercentage = (checklist) => {
-    const checkedItems = checklist.filter((item) => item.isChecked);
-    const percentage = (checkedItems.length / checklist.length) * 100;
-    return percentage.toFixed(2);
-  };
-
-  useEffect(() => {
-    if (selectedTask) {
-      setUpdatedTasks((prevState) => ({
-        ...prevState,
-        [selectedTask._id]: selectedTask,
-      }));
-    }
-  }, [selectedTask]);
-
-  const handleTaskClick = (task) => {
-    setSelectedTask(task);
-    setAnimateTask(true);
-    setAnimateAdd(false);
-  };
-  const handleTaskHide = () => {
-    setAnimateTask(false);
-  };
-  useEffect(() => {
-    if (selectedTask) {
-      setAnimateTask(true);
-    }
-  }, [selectedTask]);
-
-  const handleClickAdd = () => {
-    if (animateAdd === false) {
-      setAnimateTask(false);
-      setAnimateAdd(true);
-    } else {
-      setAnimateAdd(false);
-    }
-    console.log(animateAdd);
-  };
-
-  const handleCheckboxChange = (task, item, checked) => {
-    const updatedTask = { ...task };
-    const checklistItem = updatedTask.checklist.find(
-      (checklist) => checklist._id === item._id
-    );
-
-    if (checklistItem) {
-      checklistItem.isChecked = checked;
-      setUpdatedTasks((prevState) => ({
-        ...prevState,
-        [task._id]: updatedTask,
-      }));
-      setIsModified(true); // Set isModified to true when checkbox is changed
-    }
-  };
-
+  // CONSTANTE
   const saveChanges = useCallback(() => {
     const tasksToUpdate = Object.keys(updatedTasks).map((taskId) => {
       const updatedTask = updatedTasks[taskId];
@@ -134,23 +64,60 @@ export default function Home() {
 
     setUpdatedTasks({});
   }, [dispatch, updatedTasks]);
+  const newTasks = tasks.filter((task) => {
+    const createdAt = new Date(task.createdAt);
+    return createdAt >= yesterday && createdAt < today;
+  });
+  const numberOfNewTasks = newTasks.length;
+  const inProgressTasks = tasks.filter((task) => {
+    const hasUnchecked = task.checklist.some((item) => !item.isChecked);
+    const hasChecked = task.checklist.some((item) => item.isChecked);
+    return hasUnchecked && hasChecked;
+  });
+  const numberOfInProgressTasks = inProgressTasks.length;
+  const displayCheckedPercentage = (checklist) => {
+    const checkedItems = checklist.filter((item) => item.isChecked);
+    const percentage = (checkedItems.length / checklist.length) * 100;
+    return percentage.toFixed(2);
+  };
+  const handleTaskClick = (task) => {
+    saveChanges();
+    setSelectedTask(task);
+    setAnimateTask(true);
+    setAnimateAdd(false);
+  };
+  const handleTaskHide = () => {
+    saveChanges();
+    setAnimateTask(false);
+  };
+  const handleClickAdd = () => {
+    if (animateAdd === false) {
+      setAnimateTask(false);
+      setAnimateAdd(true);
+    } else {
+      setAnimateAdd(false);
+    }
+    console.log(animateAdd);
+  };
+  const handleCheckboxChange = (task, item, checked) => {
+    const updatedTask = { ...task };
+    const checklistItem = updatedTask.checklist.find(
+      (checklist) => checklist._id === item._id
+    );
 
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (Object.keys(updatedTasks).length > 0) {
-        event.preventDefault();
-        event.returnValue = "";
-        saveChanges();
-      }
-    };
+    if (checklistItem) {
+      checklistItem.isChecked = checked;
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
+      setUpdatedTasks((prevState) => ({
+        ...prevState,
+        [task._id]: updatedTask,
+      }));
 
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [updatedTasks, saveChanges]);
+      setSelectedTask(updatedTask); // Update selectedTask
 
+      setIsModified(true); // Set isModified to true when checkbox is changed
+    }
+  };
   const filterTasks = () => {
     switch (filterType) {
       case "inProgress":
@@ -173,7 +140,6 @@ export default function Home() {
         return tasks;
     }
   };
-
   const handleFilterClick = (type) => {
     if (isModified) {
       saveChanges();
@@ -182,9 +148,7 @@ export default function Home() {
     setFilterType(type);
     setSelectedTask(null);
   };
-
   const filteredTasks = filterTasks();
-
   const getTotalChecklistItems = () => {
     let totalItems = 0;
     let checkedItems = 0;
@@ -200,14 +164,124 @@ export default function Home() {
 
     return { totalItems, checkedItems };
   };
-
   const { totalItems, checkedItems } = getTotalChecklistItems();
+  const diffSign = percentDifference > 0 ? "+" : "";
+  const completedTasks = tasks.filter((task) => {
+    const checkedPercentage =
+      (task.checklist.filter((item) => item.isChecked).length /
+        task.checklist.length) *
+      100;
+    return checkedPercentage === 100;
+  });
+  const numberOfCompletedTasks = completedTasks.length;
+  const handleButtonSaveClick = () => {
+    // Check if all fields are filled
+    if (image && title) {
+      // Create a new task object
+      const newTask = {
+        image,
+        title,
+        description,
+        deadline,
+        checklist: [], // Initialize the checklist property as an empty array
+      };
 
+      dispatch(createTask(newTask));
+
+      // Clear the input fields
+      setImage("");
+      setTitle("");
+      setDescription("");
+      setDeadline("");
+
+      // Hide the input fields
+    }
+  };
+  const handleAddChecklistItem = () => {
+    if (selectedTask && checklistItem.trim() !== "") {
+      const updatedTask = { ...selectedTask };
+      updatedTask.checklist.push({ infoTask: checklistItem });
+      setUpdatedTasks((prevState) => ({
+        ...prevState,
+        [selectedTask._id]: updatedTask,
+      }));
+      setIsModified(true);
+      setChecklistItem("");
+    }
+  };
+  const handleDeleteChecklistItem = (taskId, itemId) => {
+    const updatedTask = { ...selectedTask };
+    updatedTask.checklist = updatedTask.checklist.filter(
+      (item) => item._id !== itemId
+    );
+
+    setUpdatedTasks((prevState) => ({
+      ...prevState,
+      [taskId]: updatedTask,
+    }));
+
+    // Update the selectedTask if it matches the deleted task
+    setSelectedTask((prevSelectedTask) => {
+      if (prevSelectedTask && prevSelectedTask._id === taskId) {
+        return updatedTask;
+      }
+      return prevSelectedTask;
+    });
+
+    // Dispatch the deleteChecklistItem action if needed
+    dispatch(deleteChecklistItem(taskId, itemId));
+  };
+  const handleDeleteTask = (taskId) => {
+    dispatch(deleteTask(taskId));
+    setSelectedTask(false);
+  };
+  const handleContextMenuClick = (taskId, action) => {
+    if (action === "delete") {
+      handleDeleteTask(taskId);
+    }
+  };
+  const handleClick = () => {
+    setShowInput(!showInput);
+    setSlideDirection(showInput ? "add-close" : "add-open");
+  };
+
+  // USE EFFECT
+
+  useEffect(() => {
+    dispatch(getTasks());
+  }, [dispatch]);
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (Object.keys(updatedTasks).length > 0) {
+        event.preventDefault();
+        event.returnValue = "";
+        saveChanges();
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [updatedTasks, saveChanges]);
+  useEffect(() => {
+    if (selectedTask) {
+      setUpdatedTasks((prevState) => ({
+        ...prevState,
+        [selectedTask._id]: selectedTask,
+      }));
+    }
+  }, [selectedTask, handleDeleteChecklistItem]); // Include handleDeleteChecklistItem in the dependency array
+  useEffect(() => {
+    if (selectedTask) {
+      setAnimateTask(true);
+    }
+  }, [selectedTask]);
   useEffect(() => {
     const newCheckedPercent = (checkedItems / totalItems) * 100;
     setCurrentCheckedPercent(newCheckedPercent);
   }, [totalItems, currentCheckedPercent]);
-
   useEffect(() => {
     const calculateCheckedPercent = () => {
       const newCheckedPercent = (checkedItems / totalItems) * 100;
@@ -267,91 +341,10 @@ export default function Home() {
       clearTimeout(timeoutId);
     };
   }, [checkedItems, totalItems]);
-
   useEffect(() => {
     const diff = currentCheckedPercent - yesterdayCheckedPercent;
     setPercentDifference(diff);
   }, [currentCheckedPercent, yesterdayCheckedPercent]);
-
-  const diffSign = percentDifference > 0 ? "+" : "";
-
-  const completedTasks = tasks.filter((task) => {
-    const checkedPercentage =
-      (task.checklist.filter((item) => item.isChecked).length /
-        task.checklist.length) *
-      100;
-    return checkedPercentage === 100;
-  });
-
-  const numberOfCompletedTasks = completedTasks.length;
-
-  const handleButtonSaveClick = () => {
-    // Check if all fields are filled
-    if (image && title) {
-      // Create a new task object
-      const newTask = {
-        image,
-        title,
-        description,
-        deadline,
-      };
-
-      dispatch(createTask(newTask));
-
-      // Clear the input fields
-      setImage("");
-      setTitle("");
-      setDescription("");
-      setDeadline("");
-
-      // Hide the input fields
-    }
-  };
-
-  const handleAddChecklistItem = () => {
-    if (selectedTask && checklistItem.trim() !== "") {
-      const updatedTask = { ...selectedTask };
-      updatedTask.checklist.push({ infoTask: checklistItem });
-      setUpdatedTasks((prevState) => ({
-        ...prevState,
-        [selectedTask._id]: updatedTask,
-      }));
-      setIsModified(true);
-      setChecklistItem("");
-    }
-  };
-
-  const handleDeleteChecklistItem = (taskId, itemId) => {
-    setUpdatedTasks((prevState) => {
-      const updatedTask = { ...prevState[taskId] };
-      updatedTask.checklist = updatedTask.checklist.filter(
-        (item) => item._id !== itemId
-      );
-      return {
-        ...prevState,
-        [taskId]: updatedTask,
-      };
-    });
-
-    // Dispatch the deleteChecklistItem action if needed
-    dispatch(deleteChecklistItem(taskId, itemId));
-  };
-
-  const handleDeleteTask = (taskId) => {
-    dispatch(deleteTask(taskId));
-    setSelectedTask(false);
-  };
-
-  const handleContextMenuClick = (taskId, action) => {
-    if (action === "delete") {
-      handleDeleteTask(taskId);
-    }
-  };
-
-  const handleClick = () => {
-    setShowInput(!showInput);
-    setSlideDirection(showInput ? "add-close" : "add-open");
-  };
 
   return (
     <div>
