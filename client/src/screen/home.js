@@ -81,13 +81,11 @@ export default function Home() {
     return percentage.toFixed(2);
   };
   const handleTaskClick = (task) => {
-    saveChanges();
     setSelectedTask(task);
     setAnimateTask(true);
     setAnimateAdd(false);
   };
   const handleTaskHide = () => {
-    saveChanges();
     setAnimateTask(false);
   };
   const handleClickAdd = () => {
@@ -97,7 +95,6 @@ export default function Home() {
     } else {
       setAnimateAdd(false);
     }
-    console.log(animateAdd);
   };
   const handleCheckboxChange = (task, item, checked) => {
     const updatedTask = { ...task };
@@ -220,13 +217,8 @@ export default function Home() {
       [taskId]: updatedTask,
     }));
 
-    // Update the selectedTask if it matches the deleted task
-    setSelectedTask((prevSelectedTask) => {
-      if (prevSelectedTask && prevSelectedTask._id === taskId) {
-        return updatedTask;
-      }
-      return prevSelectedTask;
-    });
+    setSelectedTask(updatedTask);
+    setIsModified(true);
 
     // Dispatch the deleteChecklistItem action if needed
     dispatch(deleteChecklistItem(taskId, itemId));
@@ -272,7 +264,7 @@ export default function Home() {
         [selectedTask._id]: selectedTask,
       }));
     }
-  }, [selectedTask, handleDeleteChecklistItem]); // Include handleDeleteChecklistItem in the dependency array
+  }, [selectedTask]);
   useEffect(() => {
     if (selectedTask) {
       setAnimateTask(true);
