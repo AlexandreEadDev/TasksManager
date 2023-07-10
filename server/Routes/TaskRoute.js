@@ -38,7 +38,6 @@ taskRouter.post(
     }
   })
 );
-
 // GET TASKS
 taskRouter.get(
   "/",
@@ -52,7 +51,7 @@ taskRouter.get(
     }
   })
 );
-
+// UPDATE TASKS
 taskRouter.put(
   "/:id",
   protect,
@@ -101,7 +100,6 @@ taskRouter.put(
     }
   })
 );
-
 // DELETE a task
 taskRouter.delete(
   "/:id",
@@ -121,7 +119,6 @@ taskRouter.delete(
     }
   })
 );
-
 // DELETE an element from the checklist
 taskRouter.delete(
   "/:taskId/checklist/:itemId",

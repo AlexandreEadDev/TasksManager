@@ -89,7 +89,6 @@ export const updateTask =
       });
     }
   };
-
 export const createTask = (newTask) => async (dispatch, getState) => {
   try {
     // Dispatch an action to indicate the creation request

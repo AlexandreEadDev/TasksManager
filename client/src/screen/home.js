@@ -6,6 +6,7 @@ import {
   createTask,
   deleteTask,
   deleteChecklistItem,
+  updateTaskOrderAction,
 } from "../Redux/Actions/TaskActions";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
@@ -13,6 +14,7 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -42,6 +44,8 @@ export default function Home() {
   const [checklistItem, setChecklistItem] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
+
+  console.log(selectedTask);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -81,10 +85,12 @@ export default function Home() {
     return percentage.toFixed(2);
   };
   const handleTaskClick = (task) => {
-    setSelectedTask(task);
+    const updatedTask = updatedTasks[task._id] || task; // Get the updated task if available, otherwise use the original task
+    setSelectedTask(updatedTask);
     setAnimateTask(true);
     setAnimateAdd(false);
   };
+
   const handleTaskHide = () => {
     setAnimateTask(false);
   };
@@ -94,25 +100,6 @@ export default function Home() {
       setAnimateAdd(true);
     } else {
       setAnimateAdd(false);
-    }
-  };
-  const handleCheckboxChange = (task, item, checked) => {
-    const updatedTask = { ...task };
-    const checklistItem = updatedTask.checklist.find(
-      (checklist) => checklist._id === item._id
-    );
-
-    if (checklistItem) {
-      checklistItem.isChecked = checked;
-
-      setUpdatedTasks((prevState) => ({
-        ...prevState,
-        [task._id]: updatedTask,
-      }));
-
-      setSelectedTask(updatedTask); // Update selectedTask
-
-      setIsModified(true); // Set isModified to true when checkbox is changed
     }
   };
   const filterTasks = () => {
@@ -143,7 +130,7 @@ export default function Home() {
       setIsModified(false);
     }
     setFilterType(type);
-    setSelectedTask(null);
+    setAnimateTask(false);
   };
   const filteredTasks = filterTasks();
   const getTotalChecklistItems = () => {
@@ -171,6 +158,24 @@ export default function Home() {
     return checkedPercentage === 100;
   });
   const numberOfCompletedTasks = completedTasks.length;
+  const handleCheckboxChange = (task, item, checked) => {
+    const updatedTask = { ...task };
+    const checklistItem = updatedTask.checklist.find(
+      (checklist) => checklist._id === item._id
+    );
+
+    if (checklistItem) {
+      checklistItem.isChecked = checked;
+
+      setUpdatedTasks((prevState) => ({
+        ...prevState,
+        [task._id]: updatedTask,
+      }));
+
+      setSelectedTask(updatedTask); // Update selectedTask
+      setIsModified(true);
+    }
+  };
   const handleButtonSaveClick = () => {
     // Check if all fields are filled
     if (image && title) {
@@ -202,7 +207,7 @@ export default function Home() {
         ...prevState,
         [selectedTask._id]: updatedTask,
       }));
-      setIsModified(true);
+      setSelectedTask(updatedTask);
       setChecklistItem("");
     }
   };
@@ -218,10 +223,15 @@ export default function Home() {
     }));
 
     setSelectedTask(updatedTask);
-    setIsModified(true);
 
-    // Dispatch the deleteChecklistItem action if needed
     dispatch(deleteChecklistItem(taskId, itemId));
+
+    // Calculate the new checked percentage
+    const percentage = displayCheckedPercentage(
+      updatedTask.checklist,
+      updatedTask.checklist.length
+    );
+    setCurrentCheckedPercent(percentage);
   };
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
@@ -474,16 +484,6 @@ export default function Home() {
                   key={task._id}
                 >
                   <li onClick={() => handleTaskClick(task)}>
-                    <div className="task-title-container">
-                      <span className="task-image"> {task.image}</span>
-                      <div className="task-title-w">
-                        <span className="task-title"> {task.title}</span>
-                        <span className="task-description">
-                          {task.description}
-                        </span>
-                      </div>
-                    </div>
-
                     <span className="task-percents">
                       {task.checklist.length > 0 ? (
                         <>
@@ -606,7 +606,6 @@ export default function Home() {
                         )
                       }
                     />
-
                     <label
                       style={{
                         textDecoration: item.isChecked
@@ -616,7 +615,6 @@ export default function Home() {
                     >
                       {item.infoTask}
                     </label>
-
                     <button
                       onClick={() =>
                         handleDeleteChecklistItem(selectedTask._id, item._id)

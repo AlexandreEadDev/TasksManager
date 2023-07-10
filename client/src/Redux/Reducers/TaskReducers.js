@@ -47,7 +47,6 @@ export const tasksListReducer = (
       return state;
   }
 };
-
 export const createTaskReducer = (
   state = { task: null, loading: false, error: null },
   action
