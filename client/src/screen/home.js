@@ -484,6 +484,15 @@ export default function Home() {
                   key={task._id}
                 >
                   <li onClick={() => handleTaskClick(task)}>
+                    <div className="task-title-container">
+                      <span className="task-image"> {task.image}</span>
+                      <div className="task-title-w">
+                        <span className="task-title"> {task.title}</span>
+                        <span className="task-description">
+                          {task.description}
+                        </span>
+                      </div>
+                    </div>
                     <span className="task-percents">
                       {task.checklist.length > 0 ? (
                         <>

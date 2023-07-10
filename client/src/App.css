@@ -329,7 +329,7 @@ code {
   width: fit-content;
 }
 .home-tasks-list-w {
-  max-height: 32rem;
+  max-height: 28rem;
   overflow-y: scroll;
 }
 .home-tasks-list-w ul {
@@ -503,6 +503,10 @@ code {
   border-radius: 50%;
   cursor: pointer;
   outline: none;
+  transition: 1s;
+}
+.slide-button:hover {
+  background-color: #bdaadd;
 }
 .slide-button i {
   animation-duration: 1s;
