@@ -15,6 +15,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import NotionInput from "../components/Home/test";
+import EmojiDropdown from "../components/emoji";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -426,13 +427,7 @@ export default function Home() {
                   onChange={(e) => setImage(e.target.value)}
                 />
                 {imageDropdown && (
-                  <div className="emoji-dropdown">
-                    <span onClick={() => handleEmojiSelection("🙂")}>🙂</span>
-                    <span onClick={() => handleEmojiSelection("❤️")}>❤️</span>
-                    <span onClick={() => handleEmojiSelection("😊")}>😊</span>
-                    <span onClick={() => handleEmojiSelection("🎉")}>🎉</span>
-                    {/* Add more emojis as per your requirement */}
-                  </div>
+                  <EmojiDropdown handleEmojiSelection={handleEmojiSelection} />
                 )}
               </div>
             </div>
