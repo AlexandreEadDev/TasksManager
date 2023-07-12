@@ -735,8 +735,8 @@ code {
 .emoji-dropdown {
   position: absolute;
   top: calc(100% + 4px);
-  left: -18.5rem;
-  width: 40rem;
+  left: calc(-300%);
+  width: 41rem;
   height: auto;
   background-color: #fff;
   border: 1px solid #ccc;
