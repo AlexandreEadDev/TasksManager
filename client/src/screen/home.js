@@ -6,7 +6,6 @@ import {
   createTask,
   deleteTask,
   deleteChecklistItem,
-  updateTaskOrderAction,
 } from "../Redux/Actions/TaskActions";
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
@@ -15,6 +14,7 @@ import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import NotionInput from "../components/Home/test";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -44,8 +44,7 @@ export default function Home() {
   const [checklistItem, setChecklistItem] = useState("");
   const [showInput, setShowInput] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
-
-  console.log(selectedTask);
+  const [imageDropdown, setImageDropdown] = useState(false);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -90,7 +89,6 @@ export default function Home() {
     setAnimateTask(true);
     setAnimateAdd(false);
   };
-
   const handleTaskHide = () => {
     setAnimateTask(false);
   };
@@ -245,6 +243,10 @@ export default function Home() {
   const handleClick = () => {
     setShowInput(!showInput);
     setSlideDirection(showInput ? "add-close" : "add-open");
+  };
+  const handleEmojiSelection = (emoji) => {
+    setImage(emoji);
+    setImageDropdown(false);
   };
 
   // USE EFFECT
@@ -415,12 +417,24 @@ export default function Home() {
             <h2>Add Task</h2>
             <div className="form-group">
               <label htmlFor="image">Image:</label>
-              <input
-                type="text"
-                id="image"
-                value={image}
-                onChange={(e) => setImage(e.target.value)}
-              />
+              <div className="emoji-input">
+                <input
+                  type="text"
+                  placeholder="Select an emoji"
+                  value={image}
+                  onClick={() => setImageDropdown(!imageDropdown)}
+                  onChange={(e) => setImage(e.target.value)}
+                />
+                {imageDropdown && (
+                  <div className="emoji-dropdown">
+                    <span onClick={() => handleEmojiSelection("🙂")}>🙂</span>
+                    <span onClick={() => handleEmojiSelection("❤️")}>❤️</span>
+                    <span onClick={() => handleEmojiSelection("😊")}>😊</span>
+                    <span onClick={() => handleEmojiSelection("🎉")}>🎉</span>
+                    {/* Add more emojis as per your requirement */}
+                  </div>
+                )}
+              </div>
             </div>
             <div className="form-group">
               <label htmlFor="title">Title:</label>

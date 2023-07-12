@@ -85,7 +85,7 @@ code {
   color: #cac6c6;
 }
 
-/* SIDEBAR */
+/* SIDEBAR GAUCHE*/
 
 .sidebar-container {
   position: absolute;
@@ -96,11 +96,20 @@ code {
   height: 100%;
   background-color: #eeeeee;
 }
+.sidebar-logo {
+  margin-top: 2.5rem;
+  width: 6rem;
+  height: 6rem;
+  background-color: #d9d9d9;
+}
 .sidebar-button {
   display: flex;
   flex-direction: column;
   margin-top: 12rem;
   gap: 3rem;
+}
+.sidebar-button .active {
+  color: #264f72;
 }
 .sidebar-button a {
   position: relative;
@@ -109,16 +118,14 @@ code {
   padding: 10px;
   color: black;
   text-decoration: none;
-}
-.sidebar-button a i {
   font-size: 2.3rem;
+  transition: 0.3s;
 }
-.sidebar-logo {
-  margin-top: 2.5rem;
-  width: 6rem;
-  height: 6rem;
-  background-color: #d9d9d9;
+
+.sidebar-button a:hover {
+  color: #264f72;
 }
+
 .sidebar-hour {
   position: absolute;
   bottom: 2.5rem;
@@ -709,4 +716,38 @@ code {
   to {
     transform: scale(1.1);
   }
+}
+
+.emoji-input {
+  position: relative;
+  display: inline-block;
+}
+
+.emoji-input input {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 60px;
+  height: 60px;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.emoji-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 25rem;
+  height: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.emoji-dropdown span {
+  cursor: pointer;
+  font-size: 24px;
 }
