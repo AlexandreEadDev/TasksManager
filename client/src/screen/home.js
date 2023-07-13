@@ -508,7 +508,7 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="home-tasks-list-w">
+          <div className="home-tasks-list-w" id="scrollbar-1">
             <ul className="scrollable-list">
               {filteredTasks.map((task) => (
                 <ContextMenuTrigger
@@ -633,35 +633,39 @@ export default function Home() {
                 </p>
               </div>
 
-              <ul>
+              <ul id="scrollbar-1">
                 {selectedTask.checklist.map((item) => (
                   <li key={item._id}>
-                    <input
-                      type="checkbox"
-                      checked={item.isChecked}
-                      onChange={(e) =>
-                        handleCheckboxChange(
-                          selectedTask,
-                          item,
-                          e.target.checked
-                        )
-                      }
-                    />
-                    <label
-                      style={{
-                        textDecoration: item.isChecked
-                          ? "line-through"
-                          : "none",
-                      }}
-                    >
-                      {item.infoTask}
-                    </label>
+                    <div className="checklist-title">
+                      <input
+                        type="checkbox"
+                        checked={item.isChecked}
+                        onChange={(e) =>
+                          handleCheckboxChange(
+                            selectedTask,
+                            item,
+                            e.target.checked
+                          )
+                        }
+                      />
+                      <label
+                        style={{
+                          textDecoration: item.isChecked
+                            ? "line-through"
+                            : "none",
+                        }}
+                      >
+                        {item.infoTask}
+                      </label>
+                    </div>
+
                     <button
+                      className="delete-checklist"
                       onClick={() =>
                         handleDeleteChecklistItem(selectedTask._id, item._id)
                       }
                     >
-                      Delete
+                      <i class="fa-solid fa-xmark"></i>
                     </button>
                   </li>
                 ))}
