@@ -145,6 +145,7 @@ const EmojiDropdown = ({ handleEmojiSelection }) => {
     "🤝",
     "🙏",
     "💪",
+    "🎵",
   ];
 
   const emojiSpans = emojiList.map((emoji, index) => (

@@ -194,6 +194,7 @@ export default function Home() {
       setTitle("");
       setDescription("");
       setDeadline("");
+      setAnimateAdd(false);
 
       // Hide the input fields
     }
@@ -248,6 +249,21 @@ export default function Home() {
   const handleEmojiSelection = (emoji) => {
     setImage(emoji);
     setImageDropdown(false);
+  };
+  const getCurrentDate = () => {
+    const today = new Date();
+    let month = (today.getMonth() + 1).toString();
+    let day = today.getDate().toString();
+
+    if (month.length === 1) {
+      month = "0" + month;
+    }
+
+    if (day.length === 1) {
+      day = "0" + day;
+    }
+
+    return `${today.getFullYear()}-${month}-${day}`;
   };
 
   // USE EFFECT
@@ -417,12 +433,11 @@ export default function Home() {
           <div className={`home-add-task-form ${animateAdd ? "show" : "hide"}`}>
             <h2>Add Task</h2>
             <div className="form-group">
-              <label htmlFor="image">Image:</label>
               <div className="emoji-input">
                 <input
                   type="text"
-                  placeholder="Select an emoji"
                   value={image}
+                  maxLength={0}
                   onClick={() => setImageDropdown(!imageDropdown)}
                   onChange={(e) => setImage(e.target.value)}
                 />
@@ -432,32 +447,40 @@ export default function Home() {
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="title">Title:</label>
               <input
+                className="title-input"
                 type="text"
                 id="title"
+                maxLength={30}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <span className="span">Title *</span>
             </div>
             <div className="form-group">
-              <label htmlFor="description">Description:</label>
               <textarea
+                className="desc-input"
                 id="description"
+                maxLength={250}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></textarea>
+              />
+              <span className="span">Description</span>
             </div>
-            <div className="form-group">
+            <div className="form-group deadline">
               <label htmlFor="deadline">Deadline:</label>
               <input
+                className="deadline-input"
                 type="date"
                 id="deadline"
                 value={deadline}
+                min={getCurrentDate()}
                 onChange={(e) => setDeadline(e.target.value)}
               />
             </div>
-            <button onClick={handleButtonSaveClick}>Save</button>
+            <button className="add-task-button" onClick={handleButtonSaveClick}>
+              <i class="fa-solid fa-check"></i>
+            </button>
           </div>
 
           <div className="home-filter-btn">
