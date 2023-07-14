@@ -13,8 +13,6 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import NotionInput from "../components/Home/test";
 import EmojiDropdown from "../components/emoji";
 
 export default function Home() {
@@ -46,6 +44,7 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
   const [imageDropdown, setImageDropdown] = useState(false);
+  const [deadlineAdd, setDeadlineAdd] = useState(false);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -264,6 +263,9 @@ export default function Home() {
     }
 
     return `${today.getFullYear()}-${month}-${day}`;
+  };
+  const handleDeadlineAdd = () => {
+    setDeadlineAdd(true);
   };
 
   // USE EFFECT
@@ -600,7 +602,9 @@ export default function Home() {
                     <i class="fa-regular fa-trash-can"></i>
                   </button>
                 </div>
-                <p>{selectedTask.image}</p>
+                <span className="selected-task-image">
+                  {selectedTask.image}
+                </span>
                 <h2>{selectedTask.title}</h2>
                 <p>
                   <i class="fa-regular fa-clipboard"></i>
@@ -613,17 +617,6 @@ export default function Home() {
                     {dayjs(selectedTask.createdAt).format("MMMM DD, YYYY")}
                   </span>
                 </p>
-                {selectedTask.deadline ? (
-                  <p>
-                    <i class="fa-regular fa-clock"></i>
-                    Deadline
-                    <span>
-                      {dayjs(selectedTask.deadline).format("MMMM DD, YYYY")}
-                    </span>
-                  </p>
-                ) : (
-                  <></>
-                )}
                 <p>
                   <i class="fa-regular fa-clock"></i>
                   Updated At
@@ -631,6 +624,35 @@ export default function Home() {
                     {dayjs(selectedTask.updatedAt).format("MMMM DD, YYYY")}
                   </span>
                 </p>
+                {selectedTask.deadline ? (
+                  <p>
+                    <i class="fa-regular fa-bell" />
+                    Deadline
+                    <span>
+                      {dayjs(selectedTask.deadline).format("MMMM DD, YYYY")}
+                    </span>
+                  </p>
+                ) : (
+                  <>
+                    <button
+                      className="add-deadline"
+                      onClick={handleDeadlineAdd}
+                    >
+                      <i class="fa-solid fa-plus" />
+                      Add deadline
+                    </button>
+                    {deadlineAdd && (
+                      <input
+                        className="deadline-input"
+                        type="date"
+                        id="deadline"
+                        value={deadline}
+                        min={getCurrentDate()}
+                        onChange={(e) => setDeadline(e.target.value)}
+                      />
+                    )}
+                  </>
+                )}
               </div>
 
               <ul id="scrollbar-1">
