@@ -362,6 +362,7 @@ code {
   display: flex;
   align-items: center;
   gap: 2rem;
+  max-width: 74%;
 }
 .home-tasks-list-w ul li .task-title-w {
   display: flex;
@@ -446,6 +447,11 @@ code {
   color: #000;
   background-color: #d2cdcd;
 }
+.add-deadline-w {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .add-deadline {
   display: flex;
   background-color: white;
@@ -463,6 +469,11 @@ code {
   padding: 0.5rem;
   gap: 0.5rem;
   transition: 0.3s;
+}
+.add-deadline-input {
+  width: 15rem;
+  height: 3rem;
+  margin-left: 3rem;
 }
 .add-deadline:hover {
   background-color: rgb(200, 200, 200, 0.3);

@@ -224,13 +224,6 @@ export default function Home() {
     setSelectedTask(updatedTask);
 
     dispatch(deleteChecklistItem(taskId, itemId));
-
-    // Calculate the new checked percentage
-    const percentage = displayCheckedPercentage(
-      updatedTask.checklist,
-      updatedTask.checklist.length
-    );
-    setCurrentCheckedPercent(percentage);
   };
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
@@ -264,8 +257,30 @@ export default function Home() {
 
     return `${today.getFullYear()}-${month}-${day}`;
   };
+  const handleDeadlineClick = () => {
+    if (deadlineAdd === false) {
+      setDeadlineAdd(true);
+    } else {
+      setDeadlineAdd(false);
+    }
+  };
   const handleDeadlineAdd = () => {
-    setDeadlineAdd(true);
+    if (deadlineAdd) {
+      if (deadline) {
+        setSelectedTask((prevTask) => ({
+          ...prevTask,
+          deadline: dayjs(deadline).toDate(),
+        }));
+        setDeadlineAdd(false);
+      }
+    } else {
+      // Handle add deadline button click
+      setDeadlineAdd(true);
+      if (selectedTask.deadline) {
+        // Set the temporary deadline state with the existing deadline value if available
+        setDeadline(dayjs(selectedTask.deadline).format("YYYY-MM-DD"));
+      }
+    }
   };
 
   // USE EFFECT
@@ -606,10 +621,20 @@ export default function Home() {
                   {selectedTask.image}
                 </span>
                 <h2>{selectedTask.title}</h2>
-                <p>
-                  <i class="fa-regular fa-clipboard"></i>
-                  Description <span>{selectedTask.description}</span>
-                </p>
+                {selectedTask.description ? (
+                  <p>
+                    <i class="fa-regular fa-clipboard"></i>
+                    Description <span>{selectedTask.description}</span>
+                  </p>
+                ) : (
+                  <div className="add-description-w">
+                    <button className="add-description">
+                      <i class="fa-solid fa-plus" />
+                      Add description
+                    </button>
+                  </div>
+                )}
+
                 <p>
                   <i class="fa-regular fa-clock"></i>
                   Created At
@@ -634,23 +659,30 @@ export default function Home() {
                   </p>
                 ) : (
                   <>
-                    <button
-                      className="add-deadline"
-                      onClick={handleDeadlineAdd}
-                    >
-                      <i class="fa-solid fa-plus" />
-                      Add deadline
-                    </button>
-                    {deadlineAdd && (
-                      <input
-                        className="deadline-input"
-                        type="date"
-                        id="deadline"
-                        value={deadline}
-                        min={getCurrentDate()}
-                        onChange={(e) => setDeadline(e.target.value)}
-                      />
-                    )}
+                    <div className="add-deadline-w">
+                      <button
+                        className="add-deadline"
+                        onClick={handleDeadlineClick}
+                      >
+                        <i class="fa-solid fa-plus" />
+                        Add deadline
+                      </button>
+                      {deadlineAdd && (
+                        <>
+                          <input
+                            className="add-deadline-input"
+                            type="date"
+                            id="deadline"
+                            value={deadline}
+                            min={getCurrentDate()}
+                            onChange={(e) => setDeadline(e.target.value)}
+                          />
+                          <button onClick={handleDeadlineAdd}>
+                            <i class="fa-solid fa-check"></i>
+                          </button>
+                        </>
+                      )}
+                    </div>
                   </>
                 )}
               </div>
