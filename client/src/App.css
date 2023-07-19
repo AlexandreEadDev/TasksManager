@@ -486,7 +486,7 @@ code {
 }
 .selected-task-image {
   font-size: 3.5rem;
-  margin-bottom: -1.5rem;
+  cursor: pointer;
   width: fit-content;
 }
 .selected-task-header p {
@@ -497,6 +497,7 @@ code {
   margin-left: 4rem;
   font-size: 1.2rem;
   font-weight: 300;
+  width: 90%;
 }
 .selected-task-header span {
   color: #000;
@@ -612,6 +613,38 @@ code {
   100% {
     transform: rotate(135deg);
   }
+}
+.modify-desc {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(146, 146, 146);
+  margin-left: 4rem;
+  font-size: 1.2rem;
+  font-weight: 300;
+  width: 90%;
+}
+.modify-desc textarea {
+  margin-left: 4rem;
+  width: 24rem;
+  color: black;
+  font-family: var(--poppins);
+  font-size: 1.2rem;
+  font-weight: 300;
+  border: none;
+  outline: none;
+}
+.modify-desc textarea:hover {
+  border: none;
+  outline: none;
+}
+.modify-title input {
+  font-size: 2rem;
+  font-family: var(--poppins);
+  font-weight: 700;
+  margin: 1.66rem 0 1.66rem 4rem;
+  border: none;
+  outline: none;
 }
 
 /* add task */

@@ -45,6 +45,10 @@ export default function Home() {
   const [slideDirection, setSlideDirection] = useState(null);
   const [imageDropdown, setImageDropdown] = useState(false);
   const [deadlineAdd, setDeadlineAdd] = useState(false);
+  const [editDescription, setEditDescription] = useState(false);
+  const [editImage, setEditImage] = useState(false);
+  const [editTitle, setEditTitle] = useState(false);
+  const [editDeadline, setEditDeadline] = useState(false);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -280,6 +284,68 @@ export default function Home() {
         // Set the temporary deadline state with the existing deadline value if available
         setDeadline(dayjs(selectedTask.deadline).format("YYYY-MM-DD"));
       }
+    }
+  };
+  const handleDescriptionClick = () => {
+    setEditDescription(true);
+  };
+  const handleDescriptionChange = (e) => {
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      description: e.target.value,
+    }));
+  };
+  const handleDescriptionSubmit = (e) => {
+    if (e.key === "Enter") {
+      setEditDescription(false);
+      // Save the updated description to the selected task
+      saveChanges();
+    }
+  };
+  const handleImageClick = () => {
+    setEditImage(true);
+  };
+  const handleImageChange = (emoji) => {
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      image: emoji,
+    }));
+  };
+  const handleImageSubmit = () => {
+    setEditImage(false);
+    saveChanges();
+  };
+  const handleTitleClick = () => {
+    setEditTitle(true);
+  };
+  const handleTitleChange = (e) => {
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      title: e.target.value,
+    }));
+  };
+  const handleTitleSubmit = (e) => {
+    if (e.key === "Enter") {
+      setEditTitle(false);
+      // Save the updated description to the selected task
+      saveChanges();
+    }
+  };
+
+  const handleDeadlineModifyClick = () => {
+    setEditDeadline(true);
+  };
+  const handleDeadlineChange = (e) => {
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      deadline: dayjs(e.target.value).toDate(),
+    }));
+  };
+  const handleDeadlineSubmit = (e) => {
+    if (e.key === "Enter") {
+      // Save the updated deadline to the selected task
+      saveChanges();
+      setEditDeadline(false);
     }
   };
 
@@ -618,14 +684,67 @@ export default function Home() {
                   </button>
                 </div>
                 <span className="selected-task-image">
-                  {selectedTask.image}
+                  <div className="modify-task">
+                    {editImage ? (
+                      <div className="emoji-input">
+                        <input
+                          type="text"
+                          value={selectedTask.image}
+                          maxLength={0}
+                          onClick={() => setImageDropdown(!imageDropdown)}
+                          onChange={(e) => handleImageChange(e.target.value)}
+                          onBlur={handleImageSubmit}
+                          autoFocus
+                        />
+                        {imageDropdown && (
+                          <EmojiDropdown
+                            handleEmojiSelection={handleImageChange}
+                          />
+                        )}
+                      </div>
+                    ) : (
+                      <div
+                        className="selected-task-image"
+                        onClick={handleImageClick}
+                      >
+                        {selectedTask.image}
+                      </div>
+                    )}
+                  </div>
                 </span>
-                <h2>{selectedTask.title}</h2>
+                <div className="modify-title">
+                  {editTitle ? (
+                    <input
+                      type="text"
+                      value={selectedTask.title}
+                      onChange={handleTitleChange}
+                      onKeyDown={handleTitleSubmit}
+                      onBlur={() => setEditTitle(false)}
+                      autoFocus
+                    />
+                  ) : (
+                    <h2 onClick={handleTitleClick}>{selectedTask.title}</h2>
+                  )}
+                </div>
                 {selectedTask.description ? (
-                  <p>
+                  <div className="modify-desc">
                     <i class="fa-regular fa-clipboard"></i>
-                    Description <span>{selectedTask.description}</span>
-                  </p>
+                    Description:
+                    {editDescription ? (
+                      <textarea
+                        value={selectedTask.description}
+                        onChange={handleDescriptionChange}
+                        onKeyDown={handleDescriptionSubmit}
+                        maxLength={250}
+                        onBlur={() => setEditDescription(false)}
+                        autoFocus
+                      />
+                    ) : (
+                      <span onClick={handleDescriptionClick}>
+                        {selectedTask.description}
+                      </span>
+                    )}
+                  </div>
                 ) : (
                   <div className="add-description-w">
                     <button className="add-description">
