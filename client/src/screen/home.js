@@ -95,6 +95,7 @@ export default function Home() {
   };
   const handleTaskHide = () => {
     setAnimateTask(false);
+    setAnimateAdd(false);
   };
   const handleClickAdd = () => {
     if (animateAdd === false) {
@@ -331,15 +332,11 @@ export default function Home() {
       saveChanges();
     }
   };
-
   const handleDeadlineModifyClick = () => {
     setEditDeadline(true);
   };
   const handleDeadlineChange = (e) => {
-    setSelectedTask((prevTask) => ({
-      ...prevTask,
-      deadline: dayjs(e.target.value).toDate(),
-    }));
+    setDeadline(e.target.value);
   };
   const handleDeadlineSubmit = (e) => {
     if (e.key === "Enter") {
@@ -514,6 +511,11 @@ export default function Home() {
           </div>
 
           <div className={`home-add-task-form ${animateAdd ? "show" : "hide"}`}>
+            <div className="hide-task-button">
+              <button className="hide-add-task" onClick={handleTaskHide}>
+                <i className="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
             <h2>Add Task</h2>
             <div className="form-group">
               <div className="emoji-input">
@@ -646,12 +648,6 @@ export default function Home() {
                   >
                     <MenuItem
                       className="context-menu-item"
-                      onClick={() => handleTaskClick(task)}
-                    >
-                      Modify
-                    </MenuItem>
-                    <MenuItem
-                      className="context-menu-item"
                       onClick={() => handleContextMenuClick(task._id, "delete")}
                     >
                       Delete
@@ -686,7 +682,7 @@ export default function Home() {
                 <span className="selected-task-image">
                   <div className="modify-task">
                     {editImage ? (
-                      <div className="emoji-input">
+                      <div className="emoji-input-modify">
                         <input
                           type="text"
                           value={selectedTask.image}
@@ -712,7 +708,7 @@ export default function Home() {
                     )}
                   </div>
                 </span>
-                <div className="modify-title">
+                <div className="selected-task-title">
                   {editTitle ? (
                     <input
                       type="text"
@@ -768,42 +764,60 @@ export default function Home() {
                     {dayjs(selectedTask.updatedAt).format("MMMM DD, YYYY")}
                   </span>
                 </p>
-                {selectedTask.deadline ? (
-                  <p>
-                    <i class="fa-regular fa-bell" />
-                    Deadline
-                    <span>
-                      {dayjs(selectedTask.deadline).format("MMMM DD, YYYY")}
-                    </span>
-                  </p>
-                ) : (
-                  <>
-                    <div className="add-deadline-w">
-                      <button
-                        className="add-deadline"
-                        onClick={handleDeadlineClick}
-                      >
-                        <i class="fa-solid fa-plus" />
-                        Add deadline
-                      </button>
-                      {deadlineAdd && (
-                        <>
-                          <input
-                            className="add-deadline-input"
-                            type="date"
-                            id="deadline"
-                            value={deadline}
-                            min={getCurrentDate()}
-                            onChange={(e) => setDeadline(e.target.value)}
-                          />
-                          <button onClick={handleDeadlineAdd}>
-                            <i class="fa-solid fa-check"></i>
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
+
+                <p className="deadline-w">
+                  {editDeadline ? (
+                    <>
+                      <i class="fa-regular fa-bell" />
+                      Deadline
+                      <input
+                        className="add-deadline-input"
+                        type="date"
+                        value={deadline}
+                        min={getCurrentDate()}
+                        onChange={handleDeadlineChange}
+                        onKeyDown={handleDeadlineSubmit}
+                        onBlur={() => setEditDeadline(false)}
+                        autoFocus
+                      />
+                    </>
+                  ) : selectedTask.deadline ? (
+                    <>
+                      <i class="fa-regular fa-bell" />
+                      Deadline
+                      <span onClick={handleDeadlineModifyClick}>
+                        {dayjs(selectedTask.deadline).format("MMMM DD, YYYY")}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="add-deadline-w">
+                        <button
+                          className="add-deadline"
+                          onClick={handleDeadlineClick}
+                        >
+                          <i class="fa-solid fa-plus" />
+                          Add deadline
+                        </button>
+                        {deadlineAdd && (
+                          <>
+                            <input
+                              className="add-deadline-input"
+                              type="date"
+                              id="deadline"
+                              value={deadline}
+                              min={getCurrentDate()}
+                              onChange={(e) => setDeadline(e.target.value)}
+                            />
+                            <button onClick={handleDeadlineAdd}>
+                              <i class="fa-solid fa-check"></i>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </p>
               </div>
 
               <ul id="scrollbar-1">

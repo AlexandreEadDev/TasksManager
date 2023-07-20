@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
   const location = useLocation();
+  const [currentHour, setCurrentHour] = useState(new Date());
 
   const isActive = (pathname) => {
     return location.pathname === pathname;
   };
 
-  const currentHour = new Date().toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentHour(new Date());
+    }, 1000); // Update the time every second (you can adjust the interval as needed)
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="sidebar-container">
@@ -32,7 +35,13 @@ export default function Sidebar() {
         </Link>
         <div className="deco-bar start-home"></div>
       </nav>
-      <div className="sidebar-hour">{currentHour}</div>
+      <div className="sidebar-hour">
+        {currentHour.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })}
+      </div>
     </div>
   );
 }

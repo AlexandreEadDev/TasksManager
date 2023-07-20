@@ -463,7 +463,7 @@ code {
   font-weight: 300;
   color: rgb(146, 146, 146);
   cursor: pointer;
-  margin: 0.5rem 0 0.5rem 3.5rem;
+  margin: 0.5rem 0 0.5rem -0.5rem;
   padding: 0;
   border-radius: 5px;
   padding: 0.5rem;
@@ -483,9 +483,10 @@ code {
   font-family: var(--poppins);
   font-weight: 700;
   margin-left: 4rem;
+  cursor: pointer;
 }
 .selected-task-image {
-  font-size: 3.5rem;
+  font-size: 4rem;
   cursor: pointer;
   width: fit-content;
 }
@@ -592,6 +593,26 @@ code {
   color: white;
   font-size: 2.5rem;
 }
+.hide-task-button {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+}
+.hide-task-button button {
+  background-color: white;
+  border: none;
+  margin-top: 1rem;
+  margin-left: 1rem;
+  font-size: 2rem;
+  border-radius: 5px;
+  color: #bababa;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.hide-task-button button:hover {
+  color: #000;
+  background-color: #d2cdcd;
+}
 .add-close {
   animation-name: slide-left;
 }
@@ -631,6 +652,7 @@ code {
   font-family: var(--poppins);
   font-size: 1.2rem;
   font-weight: 300;
+  padding: 0;
   border: none;
   outline: none;
 }
@@ -638,11 +660,28 @@ code {
   border: none;
   outline: none;
 }
-.modify-title input {
+.selected-task-title input {
   font-size: 2rem;
   font-family: var(--poppins);
   font-weight: 700;
   margin: 1.66rem 0 1.66rem 4rem;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+.emoji-input-modify {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.emoji-input-modify input {
+  width: 60px;
+  height: 60px;
+  font-size: 4rem;
+  text-align: center;
+  padding: 0;
   border: none;
   outline: none;
 }
@@ -680,6 +719,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
   margin-bottom: 3rem;
 }
 .emoji-input input {
@@ -689,6 +729,9 @@ code {
   height: 60px;
   font-size: 4rem;
   text-align: center;
+  padding: 0;
+  border: none;
+  outline: none;
 }
 .emoji-dropdown {
   position: absolute;
