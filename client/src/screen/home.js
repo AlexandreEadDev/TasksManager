@@ -311,10 +311,14 @@ export default function Home() {
       ...prevTask,
       image: emoji,
     }));
+    setImageDropdown(false);
   };
-  const handleImageSubmit = () => {
-    setEditImage(false);
-    saveChanges();
+  const handleImageSubmit = (e) => {
+    if (e.key === "Enter") {
+      // Save the updated deadline to the selected task
+      setEditImage(false);
+      saveChanges();
+    }
   };
   const handleTitleClick = () => {
     setEditTitle(true);
@@ -689,7 +693,7 @@ export default function Home() {
                           maxLength={0}
                           onClick={() => setImageDropdown(!imageDropdown)}
                           onChange={(e) => handleImageChange(e.target.value)}
-                          onBlur={handleImageSubmit}
+                          onKeyDown={handleImageSubmit}
                           autoFocus
                         />
                         {imageDropdown && (
