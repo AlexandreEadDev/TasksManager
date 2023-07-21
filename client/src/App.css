@@ -471,12 +471,25 @@ code {
   transition: 0.3s;
 }
 .add-deadline-input {
+  font-family: var(--poppins);
+  font-size: 1.2rem;
   width: 15rem;
   height: 3rem;
   margin-left: 3rem;
 }
 .add-deadline:hover {
   background-color: rgb(200, 200, 200, 0.3);
+}
+.delete-deadline {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 0.2rem 0.6rem 0.2rem 0.6rem;
+  transition: 0.3s;
+}
+.delete-deadline:hover {
+  background-color: #d2cdcd;
 }
 .selected-task-header h2 {
   font-size: 2rem;

@@ -340,7 +340,11 @@ export default function Home() {
     setEditDeadline(true);
   };
   const handleDeadlineChange = (e) => {
-    setDeadline(e.target.value);
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      deadline: dayjs(e.target.value).toDate(),
+    }));
+    setEditDeadline(false);
   };
   const handleDeadlineSubmit = (e) => {
     if (e.key === "Enter") {
@@ -348,6 +352,13 @@ export default function Home() {
       saveChanges();
       setEditDeadline(false);
     }
+  };
+  const handleDeleteDeadline = (e) => {
+    setSelectedTask((prevTask) => ({
+      ...prevTask,
+      deadline: null,
+    }));
+    setEditDeadline(false);
   };
 
   // USE EFFECT
@@ -777,13 +788,22 @@ export default function Home() {
                       <input
                         className="add-deadline-input"
                         type="date"
-                        value={deadline}
+                        value={
+                          selectedTask.deadline
+                            ? dayjs(selectedTask.deadline).format("YYYY-MM-DD")
+                            : ""
+                        }
                         min={getCurrentDate()}
                         onChange={handleDeadlineChange}
                         onKeyDown={handleDeadlineSubmit}
-                        onBlur={() => setEditDeadline(false)}
                         autoFocus
                       />
+                      <button
+                        className="delete-deadline"
+                        onClick={handleDeleteDeadline}
+                      >
+                        <i class="fa-regular fa-trash-can"></i>
+                      </button>
                     </>
                   ) : selectedTask.deadline ? (
                     <>
