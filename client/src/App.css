@@ -698,6 +698,10 @@ code {
   border: none;
   outline: none;
 }
+.no-title-input {
+  border-bottom: 0.5px solid #bababa !important ;
+  width: 200px !important;
+}
 
 /* add task */
 .home-add-task-form {
