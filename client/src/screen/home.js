@@ -305,6 +305,7 @@ export default function Home() {
   };
   const handleImageClick = () => {
     setEditImage(true);
+    setImageDropdown(true);
   };
   const handleImageChange = (emoji) => {
     setSelectedTask((prevTask) => ({
@@ -738,7 +739,7 @@ export default function Home() {
                   )}
                 </div>
                 {selectedTask.description ? (
-                  <div className="modify-desc">
+                  <p className="selected-task-description">
                     <i class="fa-regular fa-clipboard"></i>
                     Description:
                     {editDescription ? (
@@ -755,24 +756,26 @@ export default function Home() {
                         {selectedTask.description}
                       </span>
                     )}
-                  </div>
+                  </p>
                 ) : (
-                  <div className="add-description-w">
-                    <button className="add-description">
-                      <i class="fa-solid fa-plus" />
-                      Add description
-                    </button>
-                  </div>
+                  <p className="selected-task-description">
+                    <div className="add-description-w">
+                      <button className="add-description">
+                        <i class="fa-solid fa-plus" />
+                        Add description
+                      </button>
+                    </div>
+                  </p>
                 )}
 
-                <p>
+                <p className="createdAt-w">
                   <i class="fa-regular fa-clock"></i>
                   Created At
                   <span>
                     {dayjs(selectedTask.createdAt).format("MMMM DD, YYYY")}
                   </span>
                 </p>
-                <p>
+                <p className="updatedAt-w">
                   <i class="fa-regular fa-clock"></i>
                   Updated At
                   <span>
