@@ -19,6 +19,33 @@ code {
   font-family: "Poppins", sans-serif;
 }
 
+/* KEYFRAMES */
+
+@keyframes slide-left {
+  0% {
+    transform: rotate(135deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+@keyframes slide-right {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(135deg);
+  }
+}
+@keyframes btnAnimation {
+  from {
+    transform: scale(1.2);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
 /* HEADER */
 
 .header-component {
@@ -94,7 +121,8 @@ code {
   align-items: center;
   width: 10rem;
   height: 100%;
-  background-color: #eeeeee;
+  background-color: #ebebeb;
+  border-right: 0.5px solid #dfdfdf;
 }
 .sidebar-logo {
   margin-top: 2.5rem;
@@ -140,6 +168,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: calc(100% - 39rem);
+  height: 16rem;
   gap: 5rem;
   margin-left: -5rem;
   margin-right: 44rem;
@@ -149,8 +179,8 @@ code {
 
 .all-tasks-w {
   font-family: var(--poppins);
-  width: 25rem;
-  height: 14rem;
+  width: 25%;
+  height: 100%;
   background: linear-gradient(
     286.19deg,
     #fe875d 0%,
@@ -163,8 +193,7 @@ code {
   display: flex;
   align-items: center;
   color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
   gap: 1.5rem;
 }
 .all-tasks-title h3 {
@@ -178,8 +207,7 @@ code {
   display: flex;
   color: white;
   gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
 }
 .all-tasks-number {
   font-size: 2rem;
@@ -187,8 +215,8 @@ code {
 }
 .in-progress-w {
   font-family: var(--poppins);
-  width: 25rem;
-  height: 14rem;
+  width: 25%;
+  height: 100%;
   background: linear-gradient(
     286.6deg,
     #38b3e2 20.24%,
@@ -201,8 +229,7 @@ code {
   display: flex;
   align-items: center;
   color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
   gap: 1.5rem;
 }
 .in-progress-title h3 {
@@ -216,8 +243,7 @@ code {
   display: flex;
   color: white;
   gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
 }
 .in-progress-number {
   font-size: 2rem;
@@ -225,8 +251,8 @@ code {
 }
 .completed-w {
   font-family: var(--poppins);
-  width: 25rem;
-  height: 14rem;
+  width: 25%;
+  height: 100%;
   background: linear-gradient(
     286.19deg,
     #bdaadd 0%,
@@ -239,8 +265,7 @@ code {
   display: flex;
   align-items: center;
   color: white;
-  margin-top: 3.4rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
   gap: 1.5rem;
 }
 .completed-title h3 {
@@ -254,8 +279,7 @@ code {
   display: flex;
   color: white;
   gap: 1rem;
-  margin-top: 3rem;
-  margin-left: 2.4rem;
+  margin: 3.4rem 3rem 0 3rem;
 }
 .completed-number {
   font-size: 2rem;
@@ -317,9 +341,9 @@ code {
 .home-filter-btn {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 15rem;
-  margin: 3rem 0 2rem -5rem;
+  justify-content: space-around;
+  width: 100%;
+  margin: 3rem 0rem 2rem -5rem;
   transition: 0.5s;
 }
 .home-filter-btn button {
@@ -334,7 +358,6 @@ code {
   width: fit-content;
 }
 .home-tasks-list-w {
-  max-height: 28rem;
   overflow-y: scroll;
 }
 .home-tasks-list-w ul {
@@ -524,11 +547,10 @@ code {
   align-items: flex-start;
   width: 90%;
   padding: 0;
-  margin-left: 4rem;
-  margin-top: 2rem;
+  margin: 2rem 0 10rem 4rem;
+
   list-style-type: none;
   text-transform: uppercase;
-  max-height: 30rem;
 }
 #scrollbar-1::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -632,22 +654,7 @@ code {
 .add-open {
   animation-name: slide-right;
 }
-@keyframes slide-left {
-  0% {
-    transform: rotate(135deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-@keyframes slide-right {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(135deg);
-  }
-}
+
 .modify-desc {
   display: flex;
   align-items: center;
@@ -1000,12 +1007,4 @@ textarea:hover {
 }
 .carousel-btn i:active {
   animation: btnAnimation 0.1s linear;
-}
-@keyframes btnAnimation {
-  from {
-    transform: scale(1.2);
-  }
-  to {
-    transform: scale(1.1);
-  }
 }
