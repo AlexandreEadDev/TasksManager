@@ -19,7 +19,9 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar-container">
-      <div className="sidebar-logo"></div>
+      <div className="sidebar-logo">
+        <i class="fa-solid fa-list-check"></i>
+      </div>
       <nav className="sidebar-button">
         <Link to="/" className={isActive("/") ? "active" : ""}>
           <i className="fa-solid fa-house"></i>

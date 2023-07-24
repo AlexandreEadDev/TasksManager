@@ -125,10 +125,17 @@ code {
   border-right: 0.5px solid #dfdfdf;
 }
 .sidebar-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 2.5rem;
   width: 6rem;
   height: 6rem;
-  background-color: #d9d9d9;
+  border-radius: 5px;
+  background-color: #e4e4e4;
+}
+.sidebar-logo {
+  font-size: 5.5rem;
 }
 .sidebar-button {
   display: flex;
