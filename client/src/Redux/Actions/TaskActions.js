@@ -49,7 +49,7 @@ export const getTasks = () => async (dispatch, getState) => {
   }
 };
 export const updateTask =
-  (taskId, updatedTask) => async (dispatch, getState) => {
+  (taskId, updatedTask, newChecklistItem) => async (dispatch, getState) => {
     try {
       dispatch({ type: UPDATE_TASK_REQUEST });
 
@@ -64,6 +64,11 @@ export const updateTask =
           Authorization: `Bearer ${userInfo.token}`,
         },
       };
+
+      // If a new checklist item is provided, add it to the updatedTask's checklist array
+      if (newChecklistItem) {
+        updatedTask.checklist.push(newChecklistItem);
+      }
 
       const { data } = await axios.put(
         `/api/tasks/${taskId}`,
@@ -89,6 +94,7 @@ export const updateTask =
       });
     }
   };
+
 export const createTask = (newTask) => async (dispatch, getState) => {
   try {
     // Dispatch an action to indicate the creation request

@@ -14,6 +14,7 @@ import Calendar from "../components/Home/Calendar.js";
 import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
 import EmojiDropdown from "../components/emoji";
+import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [slideDirection, setSlideDirection] = useState(null);
   const [imageDropdown, setImageDropdown] = useState(false);
+  const [descriptionAdd, setDescriptionAdd] = useState(false);
   const [deadlineAdd, setDeadlineAdd] = useState(false);
   const [editDescription, setEditDescription] = useState(false);
   const [editImage, setEditImage] = useState(false);
@@ -213,7 +215,11 @@ export default function Home() {
   const handleAddChecklistItem = () => {
     if (selectedTask && checklistItem.trim() !== "") {
       const updatedTask = { ...selectedTask };
-      updatedTask.checklist.push({ infoTask: checklistItem });
+      updatedTask.checklist.push({
+        infoTask: checklistItem,
+        isChecked: false,
+        _id: uuidv4(),
+      });
       setUpdatedTasks((prevState) => ({
         ...prevState,
         [selectedTask._id]: updatedTask,
@@ -222,6 +228,7 @@ export default function Home() {
       setChecklistItem("");
     }
   };
+
   const handleDeleteChecklistItem = (taskId, itemId) => {
     const updatedTask = { ...selectedTask };
     updatedTask.checklist = updatedTask.checklist.filter(
@@ -273,6 +280,29 @@ export default function Home() {
     }
 
     return `${today.getFullYear()}-${month}-${day}`;
+  };
+  const handleDescriptionAddClick = () => {
+    if (descriptionAdd === false) {
+      setDescriptionAdd(true);
+    } else {
+      setDescriptionAdd(false);
+    }
+  };
+  const handleDescriptionAdd = (e) => {
+    if (descriptionAdd) {
+      if (description) {
+        setSelectedTask((prevTask) => ({
+          ...prevTask,
+          description: e.target.value,
+        }));
+        setDescriptionAdd(false);
+      }
+    } else {
+      setDescriptionAdd(true);
+      if (selectedTask.description) {
+        setDescription(selectedTask.description);
+      }
+    }
   };
   const handleDeadlineClick = () => {
     if (deadlineAdd === false) {
@@ -762,35 +792,54 @@ export default function Home() {
                     <h2 onClick={handleTitleClick}>{selectedTask.title}</h2>
                   )}
                 </div>
-                {selectedTask.description ? (
-                  <p className="selected-task-description">
-                    <i class="fa-regular fa-clipboard"></i>
-                    Description:
-                    {editDescription ? (
-                      <textarea
-                        value={selectedTask.description}
-                        onChange={handleDescriptionChange}
-                        onKeyDown={handleDescriptionSubmit}
-                        maxLength={250}
-                        onBlur={() => setEditDescription(false)}
-                        autoFocus
-                      />
-                    ) : (
-                      <span onClick={handleDescriptionClick}>
-                        {selectedTask.description}
-                      </span>
-                    )}
-                  </p>
-                ) : (
-                  <p className="selected-task-description">
+
+                <p className="selected-task-description">
+                  {selectedTask.description ? (
+                    <>
+                      <i class="fa-regular fa-clipboard"></i>
+                      Description:
+                      {editDescription ? (
+                        <textarea
+                          value={selectedTask.description}
+                          onChange={handleDescriptionChange}
+                          onKeyDown={handleDescriptionSubmit}
+                          maxLength={250}
+                          onBlur={() => setEditDescription(false)}
+                          autoFocus
+                        />
+                      ) : (
+                        <span onClick={handleDescriptionClick}>
+                          {selectedTask.description}
+                        </span>
+                      )}
+                    </>
+                  ) : (
                     <div className="add-description-w">
-                      <button className="add-description">
+                      <button
+                        className="add-description"
+                        onClick={handleDescriptionAddClick}
+                      >
                         <i class="fa-solid fa-plus" />
                         Add description
                       </button>
+                      {descriptionAdd && (
+                        <>
+                          <textarea
+                            className="add-description-input"
+                            type="text"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                handleDescriptionAdd(e);
+                              }
+                            }}
+                          />
+                        </>
+                      )}
                     </div>
-                  </p>
-                )}
+                  )}
+                </p>
 
                 <p className="createdAt-w">
                   <i class="fa-regular fa-clock"></i>

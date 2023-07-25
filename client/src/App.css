@@ -472,6 +472,9 @@ code {
   padding-bottom: 2rem;
   border-bottom: 2px solid #bababa;
 }
+.selected-task-header span {
+  margin-left: 4rem;
+}
 .selected-task-button {
   display: flex;
   width: 100%;
@@ -708,20 +711,20 @@ code {
   font-weight: 300;
   width: 90%;
 }
+.selected-task-description span {
+  cursor: pointer;
+}
 .selected-task-description textarea {
   margin-left: 4rem;
   width: 24rem;
+  height: 2rem;
   color: black;
   font-family: var(--poppins);
   font-size: 1.2rem;
   font-weight: 300;
-  padding: 0;
-  border: none;
-  outline: none;
-}
-.selected-task-description textarea:hover {
-  border: none;
-  outline: none;
+  padding: 0.2rem;
+  border: 0.5px solid #929292;
+  outline: 0.5px solid #929292;
 }
 .selected-task-title input {
   font-size: 2rem;
