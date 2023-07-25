@@ -49,6 +49,7 @@ export default function Home() {
   const [editImage, setEditImage] = useState(false);
   const [editTitle, setEditTitle] = useState(false);
   const [editDeadline, setEditDeadline] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -88,8 +89,7 @@ export default function Home() {
     return percentage.toFixed(2);
   };
   const handleTaskClick = (task) => {
-    const updatedTask = updatedTasks[task._id] || task; // Get the updated task if available, otherwise use the original task
-    setSelectedTask(updatedTask);
+    setSelectedTask(task);
     setAnimateTask(true);
     setAnimateAdd(false);
   };
@@ -135,7 +135,13 @@ export default function Home() {
     setFilterType(type);
     setAnimateTask(false);
   };
-  const filteredTasks = filterTasks();
+  const updateFilteredTasks = (updatedTask) => {
+    setFilteredTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task._id === updatedTask._id ? updatedTask : task
+      )
+    );
+  };
   const getTotalChecklistItems = () => {
     let totalItems = 0;
     let checkedItems = 0;
@@ -170,12 +176,12 @@ export default function Home() {
     if (checklistItem) {
       checklistItem.isChecked = checked;
 
-      setUpdatedTasks((prevState) => ({
-        ...prevState,
-        [task._id]: updatedTask,
-      }));
+      // Update the selectedTask state
+      setSelectedTask(updatedTask);
 
-      setSelectedTask(updatedTask); // Update selectedTask
+      // Update the filteredTasks state to reflect the changes made to the selected task
+      updateFilteredTasks(updatedTask);
+
       setIsModified(true);
     }
   };
@@ -200,7 +206,8 @@ export default function Home() {
       setDeadline("");
       setAnimateAdd(false);
 
-      // Hide the input fields
+      // Update the filteredTasks state to include the newly created task
+      setFilteredTasks((prevTasks) => [...prevTasks, newTask]);
     }
   };
   const handleAddChecklistItem = () => {
@@ -232,7 +239,12 @@ export default function Home() {
   };
   const handleDeleteTask = (taskId) => {
     dispatch(deleteTask(taskId));
-    setSelectedTask(false);
+    setSelectedTask(null);
+
+    // Remove the deleted task from the filteredTasks state
+    setFilteredTasks((prevTasks) =>
+      prevTasks.filter((task) => task._id !== taskId)
+    );
   };
   const handleContextMenuClick = (taskId, action) => {
     if (action === "delete") {
@@ -462,6 +474,14 @@ export default function Home() {
     const diff = currentCheckedPercent - yesterdayCheckedPercent;
     setPercentDifference(diff);
   }, [currentCheckedPercent, yesterdayCheckedPercent]);
+  useEffect(() => {
+    // Call the filterTasks function whenever tasks or filterType changes
+    const updatedFilteredTasks = filterTasks();
+    setFilteredTasks(updatedFilteredTasks);
+  }, [tasks, filterType]);
+  useEffect(() => {
+    setFilteredTasks(tasks);
+  }, [tasks]);
 
   return (
     <div>
@@ -618,9 +638,13 @@ export default function Home() {
                 >
                   <li onClick={() => handleTaskClick(task)}>
                     <div className="task-title-container">
-                      <span className="task-image"> {task.image}</span>
+                      <span className="task-image">{task.image}</span>
                       <div className="task-title-w">
-                        <span className="task-title"> {task.title}</span>
+                        <span className="task-title">
+                          {selectedTask != null && task._id === selectedTask._id
+                            ? selectedTask.title
+                            : task.title}
+                        </span>
                         <span className="task-description">
                           {task.description}
                         </span>
@@ -695,7 +719,7 @@ export default function Home() {
                     <i class="fa-regular fa-trash-can"></i>
                   </button>
                 </div>
-                <span className="selected-task-image">
+                <div className="selected-task-image">
                   <div className="modify-task">
                     {editImage ? (
                       <div className="emoji-input-modify">
@@ -723,7 +747,7 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                </span>
+                </div>
                 <div className="selected-task-title">
                   {editTitle ? (
                     <input
