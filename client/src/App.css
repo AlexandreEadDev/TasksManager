@@ -203,7 +203,6 @@ code {
     rgba(254, 135, 93, 0.5) 100%
   );
   border-radius: 10px;
-  box-shadow: 0px 0.5px 2px 0px rgba(0, 0, 0, 0.25);
 }
 .all-tasks-title {
   display: flex;
@@ -245,7 +244,7 @@ code {
     rgba(170, 207, 221, 0.5) 117.76%
   );
   border-radius: 10px;
-  box-shadow: 0px 0.5px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
 }
 .in-progress-title {
   display: flex;
@@ -281,7 +280,7 @@ code {
     rgba(189, 170, 221, 0.5) 100%
   );
   border-radius: 10px;
-  box-shadow: 0px 0.5px 2px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 9px 1px rgba(0, 0, 0, 0.1);
 }
 .completed-title {
   display: flex;

@@ -52,7 +52,6 @@ export default function Home() {
   const [editTitle, setEditTitle] = useState(false);
   const [editDeadline, setEditDeadline] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState([]);
-  const [taskChanges, setTaskChanges] = useState(false);
 
   // CONSTANTE
   const saveChanges = useCallback(() => {
@@ -359,10 +358,9 @@ export default function Home() {
   };
   const handleImageSubmit = (e) => {
     if (e.key === "Enter") {
+      // Save the updated deadline to the selected task
       setEditImage(false);
-
-      // Reset taskChanges to false after saving changes
-      setTaskChanges(true);
+      saveChanges();
     }
   };
   const handleTitleClick = () => {
@@ -377,7 +375,7 @@ export default function Home() {
   const handleTitleSubmit = (e) => {
     if (e.key === "Enter") {
       setEditTitle(false);
-      // Save the updated title to the selected task
+      // Save the updated description to the selected task
       saveChanges();
     }
   };
