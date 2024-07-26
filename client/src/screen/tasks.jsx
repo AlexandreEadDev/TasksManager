@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getTasks, updateTask } from "../Redux/Actions/TaskActions.js";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../components/header.js";
+import Header from "../components/header.jsx";
 import { useLocation } from "react-router-dom";
 
 export default function TaskList() {

@@ -2,11 +2,11 @@ import React from "react";
 import "./App.css";
 import "./responsive.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Test from "./screen/tasks";
-import Login from "./screen/login";
-import Home from "./screen/home";
-import Profile from "./screen/profile";
-import Calendar from "./screen/calendar";
+import Test from "./screen/tasks.jsx";
+import Login from "./screen/login.jsx";
+import Home from "./screen/home.jsx";
+import Profile from "./screen/profile.jsx";
+import Calendar from "./screen/calendar.jsx";
 
 function App() {
   return (

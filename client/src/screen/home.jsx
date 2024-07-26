@@ -6,14 +6,14 @@ import {
   createTask,
   deleteTask,
   deleteChecklistItem,
-} from "../Redux/Actions/TaskActions";
-import Header from "../components/header";
-import Sidebar from "../components/sidebar";
-import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import Calendar from "../components/Home/Calendar.js";
+} from "../Redux/Actions/TaskActions.js";
+import Header from "../components/header.jsx";
+import Sidebar from "../components/sidebar.jsx";
+
+import Calendar from "../components/Home/Calendar.jsx";
 import ProgressBar from "@ramonak/react-progress-bar";
 import dayjs from "dayjs";
-import EmojiDropdown from "../components/emoji";
+import EmojiDropdown from "../components/emoji.jsx";
 import { v4 as uuidv4 } from "uuid";
 
 export default function Home() {
@@ -662,10 +662,7 @@ export default function Home() {
           <div className="home-tasks-list-w" id="scrollbar-1">
             <ul className="scrollable-list">
               {filteredTasks.map((task) => (
-                <ContextMenuTrigger
-                  id={`taskContextMenu-${task._id}`}
-                  key={task._id}
-                >
+                <div id={`taskContextMenu-${task._id}`} key={task._id}>
                   <li onClick={() => handleTaskClick(task)}>
                     <div className="task-title-container">
                       <span className="task-image">{task.image}</span>
@@ -711,19 +708,7 @@ export default function Home() {
                       )}
                     </span>
                   </li>
-
-                  <ContextMenu
-                    id={`taskContextMenu-${task._id}`}
-                    className="context-menu"
-                  >
-                    <MenuItem
-                      className="context-menu-item"
-                      onClick={() => handleContextMenuClick(task._id, "delete")}
-                    >
-                      Delete
-                    </MenuItem>
-                  </ContextMenu>
-                </ContextMenuTrigger>
+                </div>
               ))}
             </ul>
           </div>
